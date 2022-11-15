@@ -3,7 +3,8 @@ import { FetchData } from "./components/fetchData";
 
 function App() {
   return <div className="App">
-    <FetchData />
+    
+    <FetchData  />
   </div>;
 }
 
