@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const FetchData = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
 
   const httpParams = {
     method: "POST",
@@ -11,14 +11,25 @@ const FetchData = () => {
     mode: "cors",
     body: JSON.stringify({
       query: `{
-        trafficRegistrationPoints(searchQuery: { roadCategoryIds: [E] }) {
-          id
-          name
-          location {
-            coordinates {
-              latLon {
-                lat
-                lon
+        trafficData(trafficRegistrationPointId: "44656V72812") {
+          volume {
+            byHour(
+              from: "2019-10-24T12:00:00+02:00"
+              to: "2019-10-24T14:00:00+02:00"
+            ) {
+              edges {
+                node {
+                  from
+                  to
+                  total {
+                    volumeNumbers {
+                      volume
+                    }
+                    coverage {
+                      percentage
+                    }
+                  }
+                }
               }
             }
           }
@@ -32,8 +43,8 @@ const FetchData = () => {
     try {
       const data = await fetch(
         "https://www.vegvesen.no/trafikkdata/api/", httpParams).then((res) => res.json());
-        setData(data);
-        console.log(data);
+        setData(data)
+        // console.log(data);
 
     } catch (err) {
       setData(null);
@@ -45,16 +56,17 @@ const FetchData = () => {
     fetchApi();
 
     // cleanup
-    return () => {
-      setData(null)
-    }
-  },[])
+    // return () => {
+    //   setData(null)
+    // }
+  }, )
 
   console.log(data);
 
+  
   return (
     <>
-    <div>{data.data.trafficRegistrationPoints[8].id}</div>
+    {JSON.stringify(data)}
     </>
   )
 };
