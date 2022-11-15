@@ -1,11 +1,9 @@
-// todo: enable GraphQL queries from user input
-
 import { useEffect, useState } from "react";
 
 const FetchData = () => {
   const [data, setData] = useState(null);
 
-  const httpParams = {
+  const httpOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     mode: "cors",
@@ -28,10 +26,11 @@ const FetchData = () => {
   };
 
   const fetchApi = async () => {
-       await fetch("https://www.vegvesen.no/trafikkdata/api/", httpParams)
+       await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
       .then((res) => res.json())
       .then((res) => setData(res))
       .catch((err) => console.log(err))
+      // .finally()
   };
 
   useEffect(() => {
