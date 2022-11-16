@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/asistobe-vegvesen/static/css/main.073c9b0a.css",
+    "main.js": "/asistobe-vegvesen/static/js/main.f4a150f5.js",
+    "static/js/787.0e7a296b.chunk.js": "/asistobe-vegvesen/static/js/787.0e7a296b.chunk.js",
+    "index.html": "/asistobe-vegvesen/index.html",
+    "main.073c9b0a.css.map": "/asistobe-vegvesen/static/css/main.073c9b0a.css.map",
+    "main.f4a150f5.js.map": "/asistobe-vegvesen/static/js/main.f4a150f5.js.map",
+    "787.0e7a296b.chunk.js.map": "/asistobe-vegvesen/static/js/787.0e7a296b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.f4a150f5.js"
+  ]
+}
