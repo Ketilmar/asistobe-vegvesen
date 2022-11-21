@@ -18,7 +18,7 @@ import {
 
 const Form = () => {
     const [formInfo, setFormInfo] = useState({
-        county: "",
+        county: { name: "", number: undefined },
         municipality: "",
         dateFrom: "",
         dateTo: "",
@@ -49,8 +49,21 @@ const Form = () => {
 
     // Updates form state with new values on change
     const handleChange = (event) => {
-        console.log(event.target);
+        // The name and value of the target
         const { name, value } = event.target;
+        // If the selected counties is in the counties find the info.
+        const county = counties.find((county) => {
+            return county.name === value;
+        });
+        // sets the form info to contain name and number
+        if (county) {
+            setFormInfo((oldForm) => ({
+                ...oldForm,
+                county: { name: county.name, number: county.number },
+            }));
+            return;
+        }
+        // Handles everything but the county
         setFormInfo((oldForm) => ({
             ...oldForm,
             [name]: value,
