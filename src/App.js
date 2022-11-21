@@ -7,7 +7,7 @@ function App() {
     return (
         <div className="App">
             <Form />
-             <FetchData  />
+            <FetchData />
         </div>
     );
 }
