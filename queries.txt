@@ -1,0 +1,351 @@
+{
+        areas {
+          counties {
+            name
+            number
+          }
+          municipalities {
+            name
+            number
+          }
+        }
+      }
+
+
+
+{
+  areas {
+    municipalities {
+      name
+      number
+      county {
+        name
+      }
+    }
+  }
+}
+
+
+
+{
+  trafficData(trafficRegistrationPointId: "44656V72812") {
+    trafficRegistrationPoint {
+      name
+      id
+      trafficRegistrationType
+      direction {
+        fromAccordingToMetering
+        toAccordingToMetering
+      }
+    }
+  }
+}
+
+
+
+{
+  roadCategories {
+    id
+    name
+  }
+  areas {
+    counties {
+      name
+      number
+    }
+  }
+}
+
+
+
+query withTrpsForMap($selectedCounties: [PositiveInt!], $selectedRoadCategories: [RoadCategoryId!]) {
+  trafficRegistrationPoints(
+    searchQuery: {countyNumbers: $selectedCounties, roadCategoryIds: $selectedRoadCategories}
+  ) {
+    id
+    name
+    trafficRegistrationType
+    location {
+      coordinates {
+        latLon {
+          lat
+          lon
+          __typename
+        }
+        __typename
+      }
+      roadReference {
+        roadCategory {
+          id
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    operationalStatus
+    registrationFrequency
+    __typename
+  }
+}
+
+
+
+
+veriabler: 
+{
+  "selectedRoadCategories": [
+    "E",
+    "R"
+  ],
+  "trpIds": [
+    "31998V805616",
+    "09194V804833"
+  ],
+  "trpid": "44656V72812",
+  "from": "2022-11-17T23:00:00.000Z",
+  "to": "2022-11-18T23:00:00.000Z",
+  "dayType": "ALL",
+  "year": 2010,
+  "selectedCounties": [
+    "46"
+  ]
+}
+
+query ($trpIds: [String!]) {
+  trafficRegistrationPoints(trafficRegistrationPointIds: $trpIds) {
+    id
+    name
+    trafficRegistrationType
+    operationalStatus
+    registrationFrequency
+    location {
+      roadReference {
+        shortForm
+        roadCategory {
+          id
+          name
+          __typename
+        }
+        __typename
+      }
+      roadReferenceHistory {
+        roadReference {
+          shortForm
+          __typename
+        }
+        validFrom
+        validTo
+        meteringDirectionChanged
+        __typename
+      }
+      __typename
+    }
+    commissions {
+      lanes {
+        laneNumberAccordingToMetering
+        __typename
+      }
+      validFrom
+      validTo
+      __typename
+    }
+    direction {
+      fromAccordingToMetering
+      toAccordingToMetering
+      __typename
+    }
+    dataTimeSpan {
+      firstData
+      firstDataWithQualityMetrics
+      latestData {
+        volumeByHour
+        volumeByDay
+        volumeAverageDailyByMonth
+        volumeAverageDailyByYear
+        volumeAverageDailyBySeason
+        __typename
+      }
+      __typename
+    }
+    meteringDirectionChanged
+    __typename
+  }
+}
+
+
+
+
+
+query withTrpsForMap($selectedCounties: [PositiveInt!], $selectedRoadCategories: [RoadCategoryId!]) {
+  trafficRegistrationPoints(
+    searchQuery: {countyNumbers: $selectedCounties, roadCategoryIds: $selectedRoadCategories, }
+  ) {
+    id
+    name
+    trafficRegistrationType
+    location {
+      coordinates {
+        latLon {
+          lat
+          lon
+          __typename
+        }
+        __typename
+      }
+      roadReference {
+        roadCategory {
+          id
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    operationalStatus
+    registrationFrequency
+    __typename
+  }
+}
+
+
+
+
+
+
+query withTrpsForMap($selectedCounties: [PositiveInt!], $selectedRoadCategories: [RoadCategoryId!]) {
+  trafficRegistrationPoints(
+    searchQuery: {countyNumbers: $selectedCounties, roadCategoryIds: $selectedRoadCategories}
+  ) {
+    id
+    name
+    trafficRegistrationType
+    location {
+      coordinates {
+        latLon {
+          lat
+          lon
+          __typename
+        }
+        __typename
+      }
+      municipality {
+        name
+      }
+      roadReference {
+        roadCategory {
+          id
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    operationalStatus
+    registrationFrequency
+    __typename
+  }
+}
+
+
+
+
+
+query ($trpIds: [String!]) {
+  trafficData(trafficRegistrationPointId: $trpIds) {
+    trafficRegistrationPoint {
+      id
+      name
+      location {
+        county {
+          name
+        }
+        municipality {
+          name
+        }
+        coordinates {
+          latLon {
+            lat
+            lon
+          }
+        }
+      }
+    }
+    volume {
+      byHour(from: "2020-01-01T12:00:00+02:00", to: "2022-10-24T14:00:00+02:00") {
+        edges {
+          node {
+            from
+            to
+            total {
+              volumeNumbers {
+                volume
+              }
+              coverage {
+                percentage
+              }
+            }
+            byLengthRange {
+              lengthRange {
+                lowerBound
+                upperBound
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+// fra Michael
+
+{
+  trafficData(trafficRegistrationPointId: "44656V72812") {
+    trafficRegistrationPoint {
+      id
+      name
+      location {
+        county {
+          name
+        }
+        municipality {
+          name
+        }
+        coordinates {
+          latLon {
+            lat
+            lon
+          }
+        }
+      }
+    }
+    volume {
+      byHour(from: "2020-01-01T12:00:00+02:00", to: "2022-10-24T14:00:00+02:00") {
+        edges {
+          node {
+            from
+            to
+            total {
+              volumeNumbers {
+                volume
+              }
+              coverage {
+                percentage
+              }
+            }
+            byLengthRange {
+              lengthRange {
+                lowerBound
+                upperBound
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
