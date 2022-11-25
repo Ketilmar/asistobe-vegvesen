@@ -1,4 +1,5 @@
 import { useState } from "react";
+import useFetchData from "../customHooks/useFetchData";
 
 import counties from "../data/json/counties.json";
 import municipalities from "../data/json/municipalities.json";
@@ -70,10 +71,24 @@ const Form = () => {
         }));
     };
 
+    const epicData = useFetchData(formInfo);
+    console.log(epicData);
+
+    const exportData = (data) => {
+        const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+            JSON.stringify(data)
+        )}`;
+        const link = document.createElement("a");
+        link.href = jsonString;
+        link.download = "data.json";
+
+        link.click();
+    };
+
     // Handles the submit, currently just console logs the state object.
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(formInfo);
+        exportData(epicData);
     };
 
     return (

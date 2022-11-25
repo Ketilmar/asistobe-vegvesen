@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 
-const FetchData = (props) => {
+const useFetchData = (formData) => {
     const [data, setData] = useState(null);
 
-    const { county } = props.formData;
+    const { county, municipality, dateFrom, dateTo } = formData;
+    console.log(municipality, dateFrom, dateTo);
+
     const httpOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -29,18 +31,25 @@ const FetchData = (props) => {
     const fetchApi = async () => {
         await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
             .then((res) => res.json())
-            .then((res) => setData(res))
+            .then((res) => {
+                console.log(res);
+                setData(res);
+            })
             .catch((err) => console.log(err));
         // .finally()
     };
 
-    // useEffect(() => {
-    //     fetchApi();
-    // }, []);
+    useEffect(() => {
+        if (formData.county.number === undefined) {
+            console.log("Didnt run");
+            return;
+        }
+        fetchApi();
+    }, [formData]);
 
     console.log(data);
 
-    return <>{JSON.stringify(data)}</>;
+    return JSON.stringify(data);
 };
 
-export { FetchData };
+export default useFetchData;
