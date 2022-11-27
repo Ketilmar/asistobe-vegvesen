@@ -127,7 +127,7 @@ const Form = ({apiData}) => {
             <StyledButton onClick={handleSubmit}>
                 <ButtonLink>Export as CSV</ButtonLink>
                 {downloadIcon}
-            </StyledButton>
+                </StyledButton>
 
             {/* Sender returverdien fra form til fetch */}
             <FetchData formData = {formInfo}/>
@@ -135,4 +135,4 @@ const Form = ({apiData}) => {
     );
 };
 
-export default Form;
+export default Form

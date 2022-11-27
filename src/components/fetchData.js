@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 // import Form from "./Form";
 import { trafficRegPoints } from "./queries";
+import { JsonToCsv } from "./jsonCsv";
 
-const FetchData = (dataFraForm) => {
-  const [data, setData] = useState([]);
+const FetchData = (formInfo) => {
+  const [data, setData] = useState(null);
 
-  // console.log(Object.keys(dataFraForm.formData.county.name));
-  console.log(dataFraForm.formData.county.name);
-  console.log(Object.keys(dataFraForm.formData)[0]);
-  console.log(JSON.stringify(dataFraForm,null,2));
+  // console.log(Object.keys(formInfo.formData.county.name));
+  // console.log(formInfo.formData.county.name);
+  // console.log(Object.keys(formInfo.formData)[1]);
+  // console.log(Object.values(formInfo.formData));
+  // console.log(JSON.stringify(formInfo,null,2));
 
   const queryFromForm = {
     query: `{
-      ${dataFraForm.formData.county}
+      ${formInfo.formData.county}
       }
     }`
   }
@@ -28,18 +30,24 @@ const FetchData = (dataFraForm) => {
 
   let querySwitch = null;
 
-  switch (Object.keys(dataFraForm.formData)[1]) {
+  console.log(Object.keys(formInfo.formData)[1]);
+  console.log(formInfo.formData.municipality);
+
+  switch (Object.keys(formInfo.formData)[1]) {
     case 'county':
       querySwitch = queryCounty;
       // console.log(querySwitch);
       break;
 
     case 'municipality':
-      querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${dataFraForm.formData.municipality}"})` + trafficRegPoints;
+      querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${formInfo.formData.municipality}"})` + trafficRegPoints;
       console.log(querySwitch);
       break;
 
-    default: break;
+    default: 
+      console.log('TEST: switch default');
+      break;
+
 
   }
 
@@ -47,7 +55,7 @@ const FetchData = (dataFraForm) => {
   // TEST!!
   // let query = "Bergen";
   // console.log(`trafficRegistrationPoints(searchQuery: {query: "Bergen"})` + trafficRegPoints);
-  // console.log(`trafficRegistrationPoints(searchQuery: {query: "${dataFraForm.formData.county.name}"})` + trafficRegPoints);
+  // console.log(`trafficRegistrationPoints(searchQuery: {query: "${formInfo.formData.county.name}"})` + trafficRegPoints);
 
   const httpOptions = {
     method: "POST",
@@ -59,6 +67,7 @@ const FetchData = (dataFraForm) => {
   };
 
   const fetchApi = async () => {
+    // console.log(querySwitch);
        await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
       .then((res) => res.json())
       .then((res) => setData(res))
@@ -69,7 +78,7 @@ const FetchData = (dataFraForm) => {
   useEffect(() => {
     fetchApi();
 
-  }, [])
+  }, []);
 
   console.log(data);
 
@@ -78,6 +87,7 @@ const FetchData = (dataFraForm) => {
     <>
     {/* <TestForm passData={data}/> */}
     {/* <Form apiData={data} /> */}
+    <JsonToCsv apiData={data} />
     </>
   )
   

@@ -1,0 +1,2 @@
+ - Klikker man utenfor over knappen, virker nedlastning. Ellers reloader bare siden.
+    Gjett om jeg har kastet bort mye tid på grunn av dette.
