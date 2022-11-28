@@ -8,7 +8,6 @@ const FetchData = (formInfo) => {
 
   // console.log(Object.keys(formInfo.formData.county.name));
   // console.log(formInfo.formData.county.name);
-  // console.log(Object.keys(formInfo.formData)[1]);
   // console.log(Object.values(formInfo.formData));
   // console.log(JSON.stringify(formInfo,null,2));
 
@@ -67,7 +66,6 @@ const FetchData = (formInfo) => {
   };
 
   const fetchApi = async () => {
-    // console.log(querySwitch);
        await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
       .then((res) => res.json())
       .then((res) => setData(res))
@@ -76,9 +74,10 @@ const FetchData = (formInfo) => {
   };
 
   useEffect(() => {
+    console.log('RUN: useEffect');
     fetchApi();
 
-  }, []);
+  }, [querySwitch]);;
 
   console.log(data);
 

@@ -33,12 +33,10 @@ const JsonToCsv = (fetchData) => {
 
       useEffect(() => {
         cleanData(fetchData)
-      }, [])
+      }, [fetchData])
 
     console.log(fetchData.apiData);
     console.log(parsedData );
-    // cleanData(fetchData);
-    // console.log(cleanData(fetchData));
     return (
         <>
       {parsedData && (
