@@ -5,7 +5,6 @@ const useFetchData = (formData) => {
     const [cleanedData, setCleanedData] = useState(null);
 
     const { county, municipality, dateFrom, dateTo } = formData;
-    console.log(municipality, dateFrom, dateTo);
 
     const httpOptions = {
         method: "POST",
@@ -48,15 +47,7 @@ const useFetchData = (formData) => {
         fetchApi();
     }, [formData]);
 
-    const cleanData = (data) => {
-        const { trafficRegistrationPoints } = data;
-
-        return trafficRegistrationPoints.map((point) => {
-            console.log(point);
-        });
-    };
-
-    return JSON.stringify(data);
+    return data;
 };
 
 export default useFetchData;

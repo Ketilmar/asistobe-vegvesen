@@ -73,13 +73,35 @@ const Form = () => {
 
     const fetchData = useFetchData(formInfo);
 
+    const cleanData = (data) => {
+        const { trafficRegistrationPoints } = data;
+
+        const filteredObjects = trafficRegistrationPoints.map((point) => {
+            return {
+                point: point.id,
+                name: point.name,
+                lat: point.location.coordinates.latLon.lat,
+                lon: point.location.coordinates.latLon.lon,
+            };
+        });
+
+        const array = [Object.keys(filteredObjects[0])].concat(filteredObjects);
+
+        return array
+            .map((it) => {
+                return Object.values(it).toString();
+            })
+            .join("\n");
+    };
+
     const exportData = (data) => {
+        const cleanedData = cleanData(data);
         const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-            JSON.stringify(data)
+            cleanedData
         )}`;
         const link = document.createElement("a");
         link.href = jsonString;
-        link.download = "data.json";
+        link.download = "data.csv";
 
         link.click();
     };
