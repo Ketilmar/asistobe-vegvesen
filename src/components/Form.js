@@ -71,8 +71,7 @@ const Form = () => {
         }));
     };
 
-    const epicData = useFetchData(formInfo);
-    console.log(epicData);
+    const fetchData = useFetchData(formInfo);
 
     const exportData = (data) => {
         const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
@@ -88,7 +87,7 @@ const Form = () => {
     // Handles the submit, currently just console logs the state object.
     const handleSubmit = (event) => {
         event.preventDefault();
-        exportData(epicData);
+        exportData(fetchData);
     };
 
     return (

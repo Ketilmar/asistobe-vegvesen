@@ -4,7 +4,6 @@ const Dashboard = () => {
     return (
         <>
             <Form />
-            <button></button>
         </>
     );
 };

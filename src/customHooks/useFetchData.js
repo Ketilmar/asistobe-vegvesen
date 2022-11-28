@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 const useFetchData = (formData) => {
     const [data, setData] = useState(null);
+    const [cleanedData, setCleanedData] = useState(null);
 
     const { county, municipality, dateFrom, dateTo } = formData;
     console.log(municipality, dateFrom, dateTo);
@@ -33,7 +34,7 @@ const useFetchData = (formData) => {
             .then((res) => res.json())
             .then((res) => {
                 console.log(res);
-                setData(res);
+                setData(res.data);
             })
             .catch((err) => console.log(err));
         // .finally()
@@ -47,7 +48,13 @@ const useFetchData = (formData) => {
         fetchApi();
     }, [formData]);
 
-    console.log(data);
+    const cleanData = (data) => {
+        const { trafficRegistrationPoints } = data;
+
+        return trafficRegistrationPoints.map((point) => {
+            console.log(point);
+        });
+    };
 
     return JSON.stringify(data);
 };
