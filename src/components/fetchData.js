@@ -40,7 +40,7 @@ const FetchData = (formInfo) => {
 
     case 'municipality':
       querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${formInfo.formData.municipality}"})` + trafficRegPoints;
-      console.log(querySwitch);
+      console.log({querySwitch});
       break;
 
     default: 
