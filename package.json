@@ -1,0 +1,19 @@
+{
+  "name": "asistobe-vegvesen",
+  "version": "1.0.0",
+  "description": "fetch data from Vegvesen",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ketilmar/asistobe-vegvesen.git"
+  },
+  "author": "Ketil Markhus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ketilmar/asistobe-vegvesen/issues"
+  },
+  "homepage": "https://github.com/Ketilmar/asistobe-vegvesen#readme"
+}
