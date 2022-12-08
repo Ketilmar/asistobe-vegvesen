@@ -1,18 +1,11 @@
-// import { useEffect, useState } from "react";
-// import Form from "./Form";
-import { trafficRegPoints } from "./queries.js";
+import { trafficRegPoints, trafficData, queryCounty } from "./queries.js";
 // because early node version, i must install node-fetch and import fetch
 import fetch from "node-fetch";
 
 
 const FetchData = (formInfo) => {
-  // const [data, setData] = useState(null);
 
-  console.log(formInfo[1]);
-  // console.log(Object.keys(formInfo.formData.county.name));
-  // console.log(formInfo.formData.county.name);
-  // console.log(Object.values(formInfo.formData));
-  // console.log(JSON.stringify(formInfo,null,2));
+  // console.log('FORMINFO: ',formInfo[1]);
 
   const queryFromForm = {
     query: `{
@@ -21,30 +14,20 @@ const FetchData = (formInfo) => {
     }`
   }
 
-  const queryCounty = `{
-    areas {
-      counties {
-        name
-        number
-      }
-    }
-  }`
-
   let querySwitch = null;
 
-  // console.log(Object.keys(formInfo.formData)[1]);
-  // console.log(formInfo.formData.municipality);
-
-  // switch (Object.keys(formInfo.formData)[1]) {
   switch (formInfo[0]) {
     case 'county':
       querySwitch = queryCounty;
-      // console.log(querySwitch);
+      console.log({querySwitch});
       break;
 
     case 'municipality':
       querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${formInfo[1]}"})` + trafficRegPoints;
-      console.log({querySwitch});
+      break;
+
+    case 'trafficdata':
+      querySwitch = `{trafficData(trafficRegistrationPointId: "${formInfo[1]}")` + trafficData;
       break;
 
     default: 
@@ -54,11 +37,6 @@ const FetchData = (formInfo) => {
 
   }
 
-
-  // TEST!!
-  // let query = "Bergen";
-  // console.log(`trafficRegistrationPoints(searchQuery: {query: "Bergen"})` + trafficRegPoints);
-  // console.log(`trafficRegistrationPoints(searchQuery: {query: "${formInfo.formData.county.name}"})` + trafficRegPoints);
 
   const httpOptions = {
     method: "POST",
@@ -84,15 +62,7 @@ const FetchData = (formInfo) => {
       // .finally()
   };
 
-  // useEffect(() => {
-  //   console.log('RUN: useEffect');
-  //   fetchApi();
-
-  // }, [querySwitch]);;
-fetchApi()
-
-
-  
+  fetchApi()
   
 };
 

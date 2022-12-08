@@ -18,11 +18,17 @@ const queryVar =
     query: "Bergen"
   }
 
+  // get a list of countys
+  const queryCounty = `{
+    areas {
+      counties {
+        name
+        number
+      }
+    }
+  }`
 
 // Denne søker etter reg.punkter som inneholder ordet "Bergen"
-
-// trafficRegistrationPoints(searchQuery: {query: "${queryVar.query}"})
-// trafficRegistrationPoints(searchQuery: {query: "Bergen"})
 const trafficRegPoints = `
      {
       id
@@ -53,7 +59,55 @@ const trafficRegPoints = `
   }`
 
 
+  // collects data from specified trafficRegistrationPoint
+  const trafficData = `{
+  trafficRegistrationPoint {
+        id
+        name
+        location {
+          county {
+            name
+          }
+          municipality {
+            name
+          }
+          coordinates {
+              latLon {
+              lat
+              lon
+            }
+          }
+        }
+      }
+      volume {
+        byHour(from: "2020-01-01T12:00:00+02:00", to: "2022-10-24T14:00:00+02:00") {
+          edges {
+            node {
+              from
+              to
+              total {
+                volumeNumbers {
+                  volume
+                }
+                coverage {
+                  percentage
+                }
+              }
+              byLengthRange {
+                lengthRange {
+                  lowerBound
+                  upperBound
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }`
+
+
   
   
 
-  export {trafficRegPoints}
+  export {trafficRegPoints, trafficData, queryCounty}
