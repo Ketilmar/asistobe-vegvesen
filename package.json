@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Ketilmar/asistobe-vegvesen/issues"
   },
-  "homepage": "https://github.com/Ketilmar/asistobe-vegvesen#readme"
+  "homepage": "https://github.com/Ketilmar/asistobe-vegvesen#readme",
+  "dependencies": {
+    "node-fetch": "^3.3.0"
+  }
 }

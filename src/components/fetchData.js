@@ -1,6 +1,9 @@
 // import { useEffect, useState } from "react";
 // import Form from "./Form";
 import { trafficRegPoints } from "./queries.js";
+// because early node version, i must install node-fetch and import fetch
+import fetch from "node-fetch";
+
 
 const FetchData = (formInfo) => {
   // const [data, setData] = useState(null);
@@ -66,21 +69,28 @@ const FetchData = (formInfo) => {
     }),
   };
 
+  
   const fetchApi = async () => {
-       await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
-      .then((res) => res.json())
-      .then((res) => setData(res))
-      .catch((err) => console.log(err))
+      const res= await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
+      let data = await res.json()
+
+      console.log(JSON.stringify(data, null, 4) );
+      
+       // .then((res) => res.json())
+      // // .then((res) => setData(res))
+      // .then(res => {data = res})
+      // // .then((res) => console.log(res))
+      // .catch((err) => console.log(err))
       // .finally()
   };
 
-  useEffect(() => {
-    console.log('RUN: useEffect');
-    fetchApi();
+  // useEffect(() => {
+  //   console.log('RUN: useEffect');
+  //   fetchApi();
 
-  }, [querySwitch]);;
+  // }, [querySwitch]);;
+fetchApi()
 
-  console.log(data);
 
   
   
