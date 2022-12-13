@@ -77,9 +77,10 @@ const Form = () => {
         const { trafficRegistrationPoints } = data;
 
         const filteredObjects = trafficRegistrationPoints.map((point) => {
+            const cleanedName = point.name.replace(",", "");
             return {
                 point: point.id,
-                name: point.name,
+                name: cleanedName,
                 lat: point.location.coordinates.latLon.lat,
                 lon: point.location.coordinates.latLon.lon,
             };
