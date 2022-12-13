@@ -1,3 +1,5 @@
+// Simple server
+
 "use strict";
 
 import express from "express";
