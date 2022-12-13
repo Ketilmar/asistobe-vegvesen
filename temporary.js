@@ -4,6 +4,11 @@ const prompt = require("prompt-sync")({ sigint: true });
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
+// Koden kan enten kjøres lokalt eller i egen Docker container
+// For å kjøre koden lokalt må du skrive følgende kommandoer i terminalen:
+// npm install
+// node temporary.js
+
 const countiesList = Counties.map((county) => {
   return county.name;
 });
