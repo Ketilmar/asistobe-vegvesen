@@ -1,0 +1,46 @@
+[
+    {
+        "name": "Trøndelag",
+        "number": 50
+    },
+    {
+        "name": "Oslo",
+        "number": 3
+    },
+    {
+        "name": "Viken",
+        "number": 30
+    },
+    {
+        "name": "Innlandet",
+        "number": 34
+    },
+    {
+        "name": "Agder",
+        "number": 42
+    },
+    {
+        "name": "Vestfold og Telemark",
+        "number": 38
+    },
+    {
+        "name": "Rogaland",
+        "number": 11
+    },
+    {
+        "name": "Vestland",
+        "number": 46
+    },
+    {
+        "name": "Møre og Romsdal",
+        "number": 15
+    },
+    {
+        "name": "Nordland",
+        "number": 18
+    },
+    {
+        "name": "Troms og Finnmark",
+        "number": 54
+    }
+]
