@@ -17,28 +17,48 @@ const municipalityList = Municipalities.map((municipality) => {
   return municipality.name;
 });
 
-const county = prompt(`Give a county: `);
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+const county = capitalizeFirstLetter(prompt("Give a county: "));
 console.log(county);
 
-const municipality = prompt(`Give a municipality: `);
+const municipality = capitalizeFirstLetter(prompt("Give a municipality: "));
 console.log(municipality);
 
-const inputChecker = (county, municipality) => {
+const dateFrom = prompt("Give a from date (yyyy-mm-dd): ");
+console.log(dateFrom);
+
+const dateTo = prompt("Give a to date (yyyy-mm-dd): ");
+console.log(dateTo);
+
+const response = prompt("Do the dates have the correct format? ");
+
+const dateCheck = () => {
+  if (response === "yes") {
+    inputChecker(county, municipality, dateFrom, dateTo);
+  } else {
+    console.log("Try again");
+  }
+};
+
+const inputChecker = (county, municipality, dateFrom, dateTo) => {
   if (
     countiesList.includes(county) &&
     municipalityList.includes(municipality)
   ) {
-    FetchData(county, municipality);
+    FetchData(county, municipality, dateFrom, dateTo);
   } else {
     console.log("Wrong county or municipality name");
   }
 };
 
-const FetchData = (county, municipality) => {
+const FetchData = (county, municipality, dateFrom, dateTo) => {
   let sortedIds = [];
   let exampleIds = [];
-  const dateFrom = "2020-01-01T12:00:00+02:00";
-  const dateTo = "2022-10-24T14:00:00+02:00";
+  const dateFromString = `${dateFrom}T07:00:00+02:00`;
+  const dateToString = `${dateTo}T07:00:00+02:00`;
 
   const httpOptions = {
     method: "POST",
@@ -111,7 +131,7 @@ const FetchData = (county, municipality) => {
                   }
                 }
                 volume {
-                  byDay(from: "${dateFrom}", to: "${dateTo}") {
+                  byDay(from: "${dateFromString}", to: "${dateToString}") {
                     edges {
                       node {
                         from
@@ -150,4 +170,4 @@ const FetchData = (county, municipality) => {
   setTimeout(fetchApi2, 2000);
 };
 
-inputChecker(county, municipality);
+dateCheck();
