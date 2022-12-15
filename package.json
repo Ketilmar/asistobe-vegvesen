@@ -1,0 +1,17 @@
+{
+    "name": "docker_web_app",
+    "version": "1.0.0",
+    "description": "test app",
+    "author": "stiankodehode",
+    "main": "server.js",
+    "type": "module",
+    "scripts": {
+        "start": "node server.js",
+        "build": "docker build . -t test-image",
+        "container": "docker run -p 49160:8080 -d test-image"
+    },
+    "dependencies": {
+        "eslint": "^8.29.0",
+        "express": "^4.16.1"
+    }
+}
