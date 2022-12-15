@@ -1,12 +1,11 @@
 import fetchTrafficPoints from "./src/components/fetchAllTrafficPoints.js";
 import filterTrafficPoints from "./src/components/filterTrafficPoints.js";
+import fetchData from "./src/components/fetchData.js";
 
 // Console args
 // Examples: "node index.js -m bergen", "node index.js -c vestland"
 const cmdArgs = {
-    // "-m" or "-c"
     type: process.argv[2],
-    // Name of municipality/county
     name: process.argv[3],
 };
 
@@ -21,6 +20,7 @@ const getData = () => {
         cmdArgs.name,
         trafficPoints
     );
+    const data = fetchData(filteredTrafficPoints);
 };
 
 getData();
