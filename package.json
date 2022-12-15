@@ -6,7 +6,9 @@
     "main": "server.js",
     "type": "module",
     "scripts": {
-        "start": "node server.js"
+        "start": "node server.js",
+        "build": "docker build . -t test-image",
+        "container": "docker run -p 49160:8080 -d test-image"
     },
     "dependencies": {
         "express": "^4.16.1"
