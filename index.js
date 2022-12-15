@@ -1,14 +1,26 @@
-import fetchTrafficPoints from "./src/components/fetchTrafficPoints.js";
+import fetchTrafficPoints from "./src/components/fetchAllTrafficPoints.js";
+import filterTrafficPoints from "./src/components/filterTrafficPoints.js";
 
-// Grabs the thrid argument and logs it to the console.
-
-const consoleArg = process.argv[2];
-
-// node index.js "argument here"
-
-const dataFetch = async () => {
-    const trafficPoints = fetchTrafficPoints();
-    console.log(trafficPoints);
+// Console args
+// Examples: "node index.js -m bergen", "node index.js -c vestland"
+const cmdArgs = {
+    // "-m" or "-c"
+    type: process.argv[2],
+    // Name of municipality/county
+    name: process.argv[3],
 };
 
-dataFetch();
+// Main function of the app
+const getData = () => {
+    // all traffic points from API
+    const trafficPoints = fetchTrafficPoints();
+
+    // Filtered traffic points based on municipality or county
+    const filteredTrafficPoints = filterTrafficPoints(
+        cmdArgs.type,
+        cmdArgs.name,
+        trafficPoints
+    );
+};
+
+getData();
