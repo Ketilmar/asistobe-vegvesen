@@ -17,3 +17,4 @@ COPY . .
 
 EXPOSE 8780
 CMD [ "node", "index.js" ]
+# CMD ["node",".","-m","bergen"],
