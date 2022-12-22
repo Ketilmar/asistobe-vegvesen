@@ -1,29 +1,47 @@
-import { trafficRegPoints, trafficData, queryCounty } from "./queries.js";
+import { trafficRegPoints, trafficRegPointsQuery, trafficData, queryCounty } from "./queries.js";
 // because early node version in Docker dev environment, i must install node-fetch and import fetch. Just uncomment to use with later node version.
 import fetch from "node-fetch";
 import { jsonToCsv } from "./jsonToCsv.js";
+import filterTrafficPoints from "./filterTrafficPoints.js";
 
 
 const FetchData = (cmdInput) => {
 
+  console.log({cmdInput});
+
   let querySwitch = null;
 
-  switch (cmdInput[0]) {
-    case 'county':
-      querySwitch = queryCounty;
+  switch (cmdInput[2]) {
+
+    // list county reg.points
+    case '-c':
+      // querySwitch = queryCounty;
+      querySwitch = trafficRegPoints;
       console.log({querySwitch});
       break;
 
-    case 'municipality':
-      querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${cmdInput[1]}"})` + trafficRegPoints;
+    // list municipality reg.points
+    case '-m':
+      querySwitch = trafficRegPoints;
+      break;
+      
+    // search reg.points by reg.point name
+    case '-s':
+      querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${cmdInput[3]}"})` + trafficRegPointsQuery;
       break;
 
-    case 'trafficdata':
-      querySwitch = `{trafficData(trafficRegistrationPointId: "${cmdInput[1]}")` + trafficData;
+    // select specific reg.point
+    case '-id':
+      querySwitch = `{trafficData(trafficRegistrationPointId: "${cmdInput[3]}")` + trafficData;
+      break;
+
+    // list all reg.points
+    case '-all':
+      querySwitch = trafficRegPoints;
       break;
 
     default: 
-      console.log('TEST: switch default');
+      console.log('Please check your input');
       break;
 
 
@@ -45,7 +63,14 @@ const FetchData = (cmdInput) => {
       let data = await res.json()
 
       // console.log(JSON.stringify(data, null, 4) );
-      jsonToCsv(data)
+      
+      // if using query on graphQL, send direct to csv parser. Else use filter module
+      if (cmdInput[2] === '-s' || cmdInput[2] === '-id' || cmdInput[2] === '-all'){
+        jsonToCsv(data)
+      }
+      else {
+        filterTrafficPoints(cmdInput[2], cmdInput[3], data);
+      }
       
        // .then((res) => res.json())
       // // .then((res) => setData(res))

@@ -29,34 +29,57 @@ const queryVar =
   }`
 
 // Denne søker etter reg.punkter som inneholder ordet "Bergen"
-const trafficRegPoints = `
+const trafficRegPointsQuery = `
      {
       id
       name
       trafficRegistrationType
       location {
+        county {
+          name
+          number
+        }
+        municipality {
+          name
+          number
+        }
         roadReference {
           shortForm
           roadCategory {
             id
             name
-            __typename
           }
-          __typename
         }
         coordinates {
           latLon {
             lat
             lon
-            __typename
           }
-          __typename
         }
-        __typename
       }
-      __typename
     }
   }`
+
+
+// Get a list of all reg.points
+const trafficRegPoints = ` 
+{trafficRegistrationPoints{
+  id
+      name
+      location {
+        county {
+          name
+          number
+        }
+        municipality {
+          name
+          number
+        }
+      }
+  }
+}`
+
+
 
 
   // collects data from specified trafficRegistrationPoint
@@ -110,4 +133,4 @@ const trafficRegPoints = `
   
   
 
-  export {trafficRegPoints, trafficData, queryCounty}
+  export {trafficRegPoints, trafficRegPointsQuery, trafficData, queryCounty}

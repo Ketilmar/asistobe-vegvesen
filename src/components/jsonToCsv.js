@@ -2,11 +2,11 @@
 
 function jsonToCsv(items) {
         
-    console.log(items);
+    console.log({items});
 
     const cleanedData = items.data.trafficRegistrationPoints.map((item) => ({
         Name: item.name,
-        Number: item.location.roadReference.shortForm,
+        // Number: item.location.roadReference.shortForm,
         id: item.id,
       }));
 
