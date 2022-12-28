@@ -11,15 +11,12 @@ const filterByMunicipality = (trafficPoints, municipality) => {
         } else return false;
     });
 
-    console.log({filteredTrafficPoints} );
     return filteredTrafficPoints;
 };
 
 // This function filters the traffic points based on the county name provided
 const filterByCounty = (trafficPoints, county) => {
-    const trafficRegistrationPoints  = trafficPoints.data.areas.counties;
-
-    console.log('areas: ',trafficPoints.data.areas);
+    const trafficRegistrationPoints  = trafficPoints.data.trafficRegistrationPoints;
 
     const filteredTrafficPoints = trafficRegistrationPoints.filter((trafficPoint) => {
         const { name } = trafficPoint.location.county;
@@ -28,13 +25,12 @@ const filterByCounty = (trafficPoints, county) => {
         } else return false;
     });
     
-    console.log({filteredTrafficPoints});
     return filteredTrafficPoints;
 };
 
 // Function with a switch to determine which function to run
 const filterTrafficPoints = (fetchType, name, trafficPoints) => {
-    // console.log({fetchType, name, trafficPoints});
+    console.log({fetchType, name, trafficPoints});
     let filteredTrafficPoints = null;
     switch (fetchType) {
         case "-m":
@@ -50,6 +46,8 @@ const filterTrafficPoints = (fetchType, name, trafficPoints) => {
             console.log("Please use -m <municipality> or -c <county>");
             break;
     }
+
+    console.log({filteredTrafficPoints});
     return filteredTrafficPoints;
 };
 

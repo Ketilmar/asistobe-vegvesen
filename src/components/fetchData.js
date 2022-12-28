@@ -25,7 +25,7 @@ const FetchData = (cmdInput) => {
       querySwitch = trafficRegPoints;
       break;
       
-    // search reg.points by reg.point name
+    // search reg.points by name or number
     case '-s':
       querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${cmdInput[3]}"})` + trafficRegPointsQuery;
       break;
