@@ -1,3 +1,5 @@
+import { FetchData } from "./fetchData.js";
+
 // This function filters the traffic points based on the municipality name provided
 const filterByMunicipality = (trafficPoints, municipality) => {
     console.log({trafficPoints, municipality});
@@ -47,7 +49,14 @@ const filterTrafficPoints = (fetchType, name, trafficPoints) => {
             break;
     }
 
-    console.log({filteredTrafficPoints});
+    // iterate thru array to run fetch on each trafficpoint id
+    filteredTrafficPoints.map((id) => {
+        // console.log([0,0,'-id', id.id]);
+
+        // param to fetchData made to look like process.argv array
+        // FetchData([0,0,'-id', id.id])
+    })
+    // console.log({filteredTrafficPoints});
     return filteredTrafficPoints;
 };
 

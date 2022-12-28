@@ -11,8 +11,8 @@ const FetchData = (cmdInput) => {
 
   let querySwitch = null;
 
+  // selects graphQL options based on cmd input
   switch (cmdInput[2]) {
-
     // list county reg.points
     case '-c':
       // querySwitch = queryCounty;
@@ -59,18 +59,22 @@ const FetchData = (cmdInput) => {
 
   
   const fetchApi = async () => {
+    try {
       const res= await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
       let data = await res.json()
 
       // console.log(JSON.stringify(data, null, 4) );
       
-      // if using query on graphQL, send direct to csv parser. Else use filter module
+      // if using a query on graphQL, send direct to csv parser. Else use filter module
       if (cmdInput[2] === '-s' || cmdInput[2] === '-id' || cmdInput[2] === '-all'){
-        jsonToCsv(data)
+        console.log(data);
+        // jsonToCsv(data)
       }
       else {
         filterTrafficPoints(cmdInput[2], cmdInput[3], data);
       }
+    }
+    catch  (err){console.log(err);}
       
        // .then((res) => res.json())
       // // .then((res) => setData(res))
