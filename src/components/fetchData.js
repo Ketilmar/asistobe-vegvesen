@@ -40,11 +40,10 @@ const FetchData = (cmdInput) => {
       querySwitch = trafficRegPoints;
       break;
 
+    // stops further execution of program
     default: 
-      console.log('Please check your input');
-      break;
-
-
+      console.log("Check your input. You typed:", cmdInput[2], cmdInput[3]);
+      return;
   }
 
 
@@ -62,12 +61,12 @@ const FetchData = (cmdInput) => {
     try {
       const res= await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
       let data = await res.json()
-
-      // console.log(JSON.stringify(data, null, 4) );
       
       // if using a query on graphQL, send direct to csv parser. Else use filter module
       if (cmdInput[2] === '-s' || cmdInput[2] === '-id' || cmdInput[2] === '-all'){
-        console.log(data);
+        console.log('Data to CSV module: ', data);
+        
+        // PS: only '-s' is functional thru jsonToCsv at the moment
         // jsonToCsv(data)
       }
       else {
@@ -75,18 +74,10 @@ const FetchData = (cmdInput) => {
       }
     }
     catch  (err){console.log(err);}
-      
-       // .then((res) => res.json())
-      // // .then((res) => setData(res))
-      // .then(res => {data = res})
-      // // .then((res) => console.log(res))
-      // .catch((err) => console.log(err))
-      // .finally()
+
   };
 
   fetchApi()
-
-  
   
 };
 
