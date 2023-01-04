@@ -55,13 +55,15 @@ const filterTrafficPoints = (fetchType, name, trafficPoints) => {
     }
 
     // iterate thru array to run fetch on each trafficpoint id
-    filteredTrafficPoints.map((id) => {
-        // param to fetchData made to look like process.argv array for use in switch
-        FetchData([0,0,'-id', id.id]);
-
-        // Use this to for alternative fetch (uncomment below too)
-        // trafficPointsArray.push(id.id)
-    });
+    filteredTrafficPoints.map((id, index) => {
+        setTimeout(() => {
+          // param to fetchData made to look like process.argv array for use in switch
+          FetchData([0, 0, "-id", id.id]);
+    
+          // Use this to for alternative fetch (uncomment below too)
+          // trafficPointsArray.push(id.id)
+        }, 300 * index);
+      });
 
     
     // Use this to for alternative fetch
