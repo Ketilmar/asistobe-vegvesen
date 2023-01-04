@@ -3,6 +3,7 @@ import { trafficRegPoints, trafficRegPointsQuery, trafficData, queryCounty } fro
 import fetch from "node-fetch";
 import { jsonToCsv } from "./jsonToCsv.js";
 import filterTrafficPoints from "./filterTrafficPoints.js";
+import { RegpointDataCsv } from "./regpointDataCsv.js";
 
 
 const FetchData = (cmdInput) => {
@@ -62,22 +63,31 @@ const FetchData = (cmdInput) => {
       const res= await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
       let data = await res.json()
       
-      // if using a query on graphQL, send direct to csv parser. Else use filter module
-      if (cmdInput[2] === '-s' || cmdInput[2] === '-id' || cmdInput[2] === '-all'){
-        console.log('Data to CSV module: ', data);
-        
-        // PS: only '-s' is functional thru jsonToCsv at the moment
-        // jsonToCsv(data)
+
+      // Send fetch return to the various parsers
+      switch (cmdInput[2]){
+        case '-s':
+          jsonToCsv(data)
+          break;
+
+        case '-id':
+          RegpointDataCsv(data)
+          break;
+
+        case '-all':
+          break;
+
+        default:
+          filterTrafficPoints(cmdInput[2], cmdInput[3], data);
+          break; 
       }
-      else {
-        filterTrafficPoints(cmdInput[2], cmdInput[3], data);
-      }
+
     }
     catch  (err){console.log(err);}
 
   };
 
-  fetchApi()
+  fetchApi();
   
 };
 

@@ -1,4 +1,5 @@
 import { FetchData } from "./fetchData.js";
+import { FetchRegpointData } from "./fetchRegpointData.js";
 
 /** This function filters the traffic points based on the municipality name provided */
 const filterByMunicipality = (trafficPoints, municipality) => {
@@ -29,9 +30,11 @@ const filterByCounty = (trafficPoints, county) => {
         else return false;
     });
     
+    // console.log({filteredTrafficPoints});
     return filteredTrafficPoints;
 };
 
+let trafficPointsArray = [];
 /** Function with a switch to filter County or Municipality based on provided cmd input */
 const filterTrafficPoints = (fetchType, name, trafficPoints) => {
     let filteredTrafficPoints = null;
@@ -54,10 +57,17 @@ const filterTrafficPoints = (fetchType, name, trafficPoints) => {
     // iterate thru array to run fetch on each trafficpoint id
     filteredTrafficPoints.map((id) => {
         // param to fetchData made to look like process.argv array for use in switch
-        FetchData([0,0,'-id', id.id])
-    })
+        FetchData([0,0,'-id', id.id]);
+
+        // Use this to for alternative fetch (uncomment below too)
+        // trafficPointsArray.push(id.id)
+    });
+
     
-    return filteredTrafficPoints;
+    // Use this to for alternative fetch
+    // FetchRegpointData(trafficPointsArray);
+
+    // return filteredTrafficPoints
 };
 
 export default filterTrafficPoints;

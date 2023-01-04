@@ -2,6 +2,7 @@
     // more info here: https://github.com/nodejs/node/issues/27408#issuecomment-598314461
 
 import { FetchData } from "./src/components/fetchData.js";
+import { FetchData2 } from "./src/components/fetchData2.js";
 
 // HOW TO USE:
     // to search for traffic points

@@ -1,22 +1,3 @@
-// Variabler:
-const queryVar =
-{
-    selectedRoadCategories: [
-      "E",
-      "R"
-    ],
-    trpIds: "44656V72812",
-    trpid: "44656V72812",
-    from: "2022-11-17T23:00:00.000Z",
-    to: "2022-11-18T23:00:00.000Z",
-    selectedCounties: [
-      "46"
-    ],
-    selectedMunicipalities: [
-      "5043"
-    ],
-    query: "Bergen"
-  }
 
   // get a list of countys
   const queryCounty = `{
@@ -28,7 +9,7 @@ const queryVar =
     }
   }`
 
-// Denne søker etter reg.punkter som inneholder ordet "Bergen"
+// This query is used to search for trafficpoints
 const trafficRegPointsQuery = `
      {
       id
@@ -103,7 +84,7 @@ const trafficRegPoints = `
         }
       }
       volume {
-        byHour(from: "2020-01-01T12:00:00+02:00", to: "2022-10-24T14:00:00+02:00") {
+        byHour(from: "2023-01-01T19:00:00+01:00", to: "2023-01-01T21:00:00+01:00") {
           edges {
             node {
               from
