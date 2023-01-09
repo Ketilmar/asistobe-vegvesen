@@ -12,7 +12,7 @@ import { FetchData2 } from "./src/components/fetchData2.js";
     // get trafficpoints for a municipality
         // node . -m vestland
     // get data from a spesific reg.point
-        // node . -id 44656V72812
+        // node . -id 72220V805744
     // get all trafficpoints
         // node . -all
 
