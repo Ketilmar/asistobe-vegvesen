@@ -37,6 +37,9 @@ const FetchData = (cmdInput) => {
     // select specific reg.point
     case '-id':
       querySwitch = trafficData(cmdInput[3], cmdInput[4], cmdInput[5]);
+      // Remember to run with date inputs now "yyyy-mm-dd"
+      // "44656V72812 fromDate toDate"
+      // Example "44656V72812 yyyy-mm-dd yyyy-mm-dd"
       break;
 
     // list all reg.points
