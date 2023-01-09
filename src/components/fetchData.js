@@ -6,6 +6,9 @@ import filterTrafficPoints from "./filterTrafficPoints.js";
 import { RegpointDataCsv } from "./regpointDataCsv.js";
 
 
+const fromDate = process.argv[4];
+const toDate = process.argv[5];
+
 const FetchData = (cmdInput) => {
 
   console.log({cmdInput});
@@ -33,7 +36,7 @@ const FetchData = (cmdInput) => {
 
     // select specific reg.point
     case '-id':
-      querySwitch = `{trafficData(trafficRegistrationPointId: "${cmdInput[3]}")` + trafficData;
+      querySwitch = trafficData(cmdInput[3], cmdInput[4], cmdInput[5]);
       break;
 
     // list all reg.points
@@ -91,4 +94,4 @@ const FetchData = (cmdInput) => {
   
 };
 
-export {FetchData}
+export {FetchData, fromDate, toDate}
