@@ -1,4 +1,4 @@
-
+import { FileWriter } from "./fileWriter.js";
 
 function jsonToCsv(items) {
         
@@ -32,12 +32,9 @@ function jsonToCsv(items) {
     // join header and body, and break into separate lines
     const csv = [headerString, ...rowItems].join('\r\n');
   
-    // console.log({csv});
+    FileWriter(csv);
+    
     return csv;
   }
   
-//   const csv = jsonToCsv(obj);
-  
-  
-
   export {jsonToCsv}
