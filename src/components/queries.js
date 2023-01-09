@@ -64,7 +64,8 @@ const trafficRegPoints = `
 
 
   // collects data from specified trafficRegistrationPoint
-  const trafficData = `{
+  const trafficData = (id, dateFrom, dateTo) => {
+    return `{trafficData(trafficRegistrationPointId: "${id}") {
   trafficRegistrationPoint {
         id
         name
@@ -84,7 +85,7 @@ const trafficRegPoints = `
         }
       }
       volume {
-        byHour(from: "2023-01-01T19:00:00+01:00", to: "2023-01-01T21:00:00+01:00") {
+        byDay(from: "${dateFrom}T19:00:00+01:00", to: "${dateTo}T21:00:00+01:00") {
           edges {
             node {
               from
@@ -109,6 +110,7 @@ const trafficRegPoints = `
       }
     }
   }`
+}
 
 
   
