@@ -85,7 +85,7 @@ const trafficRegPoints = `
         }
       }
       volume {
-        byDay(from: "${dateFrom}T19:00:00+01:00", to: "${dateTo}T21:00:00+01:00") {
+        byHour(from: "${dateFrom}T00:00:00+01:00", to: "${dateTo}T00:00:00+01:00") {
           edges {
             node {
               from
