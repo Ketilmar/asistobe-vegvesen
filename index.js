@@ -7,11 +7,11 @@ import { FetchData } from "./src/components/fetchData.js";
     // to search for traffic points
         // node . -s <search phrase>
     // get trafficpoints for a county
-        // node . -c bergen
+        // node . -c vestland
     // get trafficpoints for a municipality
-        // node . -m vestland
+        // node . -m bergen yyyy-mm-dd yyyy-mm-dd
     // get data from a spesific reg.point
-        // node . -id 44656V72812
+        // node . -id 44656V72812 yyyy-mm-dd yyyy-mm-dd
     // get all trafficpoints
         // node . -all
 
