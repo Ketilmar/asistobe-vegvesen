@@ -22,8 +22,6 @@ const getDefaultDates = (daysToGoBack) => {
   return `${year}-${month}-${day}`;
 };
 
-// const fromDateDefault = `${year}-${month}-${fromDay}`
-// const toDateDefault = `${year}-${month}-${toDay}`
 const fromDateDefault = getDefaultDates(2);
 const toDateDefault = getDefaultDates(1);
 
