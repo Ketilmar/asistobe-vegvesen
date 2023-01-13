@@ -1,3 +1,7 @@
+//###############################################################
+// This file is no longer in use. I just keep it for reference ##
+//###############################################################
+
 import { FileWriter } from "./fileWriter.js";
 
 function jsonToCsv(items) {
@@ -79,4 +83,4 @@ function jsonToCsv(items) {
     return csv;
   }
   
-  export {jsonToCsv}
+  // export {jsonToCsv}
