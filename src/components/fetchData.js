@@ -1,9 +1,9 @@
 import { trafficRegPoints, trafficRegPointsQuery, trafficData, queryCounty } from "./queries.js";
 // because early node version in Docker dev environment, i must install node-fetch and import fetch. Just uncomment to use with later node version.
 import fetch from "node-fetch";
-import { jsonToCsv } from "./jsonToCsv.js";
+import { SearchResultCsv } from "./searchResultCsv.js";
 import filterTrafficPoints from "./filterTrafficPoints.js";
-import { RegpointDataCsv } from "./regpointDataCsv.js";
+import { TrafficDataCsv } from "./trafficDataCsv.js";
 
 
 const FetchData = (cmdInput) => {
@@ -18,7 +18,6 @@ const FetchData = (cmdInput) => {
     case '-c':
       // querySwitch = queryCounty;
       querySwitch = trafficRegPoints;
-      console.log({querySwitch});
       break;
 
     // list municipality reg.points
@@ -67,11 +66,11 @@ const FetchData = (cmdInput) => {
       // Send fetch return to the various parsers
       switch (cmdInput[2]){
         case '-s':
-          jsonToCsv(data)
+          SearchResultCsv(data)
           break;
 
         case '-id':
-          RegpointDataCsv(data)
+          TrafficDataCsv(data)
           break;
 
         case '-all':

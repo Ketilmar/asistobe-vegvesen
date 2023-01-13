@@ -28,7 +28,7 @@ const filterByCounty = (trafficPoints, county) => {
         } 
         else return false;
     });
-    
+
     return filteredTrafficPoints;
 };
 
