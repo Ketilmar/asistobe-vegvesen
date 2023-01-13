@@ -8,8 +8,6 @@ import { TrafficDataCsv } from "./trafficDataCsv.js";
 
 const FetchData = (cmdInput) => {
 
-  console.log({cmdInput});
-
   let querySwitch = null;
 
   // selects graphQL options based on cmd input
