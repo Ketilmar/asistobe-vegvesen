@@ -1,8 +1,9 @@
-import { FileWriter } from "./fileWriter.js";
+import { FileWriter, FileExists } from "./fileWriter.js";
+import fs from 'fs'
 
 /** Parses the result from '-s' option and converts it to a flat csv object */
 function SearchResultCsv(items) {
-
+  
     /** takes an object input and iterates thru it to get all the values */
     const getValues = (data, values= []) => {
       if(typeof data !== 'object'){
@@ -26,8 +27,22 @@ function SearchResultCsv(items) {
   
     // join header and body, and break into separate lines
     const csv = [manualHeaders, ...rows].join('\r\n');
-  
-    FileWriter(csv);
+
+    // Checks if file exists. If true, delete it before writing new.
+  const path = "searchResult.csv"
+  if (FileExists(path)){
+    fs.rm(path, (err) => {
+      if(err){
+          // File deletion failed
+          console.error(err.message);
+          return;
+      }
+      console.log("File deleted successfully");
+    })
+
+  };
+
+    FileWriter('searchResult.csv', csv);
     
   }
   
