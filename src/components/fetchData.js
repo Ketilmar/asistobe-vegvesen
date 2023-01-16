@@ -4,7 +4,12 @@ import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
 import filterTrafficPoints from "./filterTrafficPoints.js";
 import { TrafficDataCsv } from "./trafficDataCsv.js";
+import {fromDateDefault, toDateDefault} from "./getDefaultDates.js"
 
+
+const fromDate = process.argv[4] || fromDateDefault;
+const toDate = process.argv[5] || toDateDefault;
+console.log({fromDate, toDate});
 
 const FetchData = (cmdInput) => {
 
@@ -30,7 +35,7 @@ const FetchData = (cmdInput) => {
 
     // select specific reg.point
     case '-id':
-      querySwitch = `{trafficData(trafficRegistrationPointId: "${cmdInput[3]}")` + trafficData;
+      querySwitch = trafficData(cmdInput[3], fromDate, toDate);
       break;
 
     // list all reg.points
@@ -88,4 +93,4 @@ const FetchData = (cmdInput) => {
   
 };
 
-export {FetchData}
+export {FetchData, fromDate, toDate}

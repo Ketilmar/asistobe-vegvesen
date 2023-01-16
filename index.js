@@ -10,9 +10,9 @@ import { FileDeleter } from "./src/components/fileWriter.js";
     // get trafficpoints for a county
         // node . -c vestland
     // get trafficpoints for a municipality
-        // node . -m bergen
+        // node . -m bergen yyyy-mm-dd yyyy-mm-dd
     // get data from a spesific reg.point
-        // node . -id 44656V72812
+        // node . -id 44656V72812 yyyy-mm-dd yyyy-mm-dd
     // get all trafficpoints
         // node . -all
 
