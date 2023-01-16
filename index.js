@@ -26,6 +26,10 @@ switch (process.argv[2]) {
         FileDeleter("trafficdata.csv")
         break;
 
+    case '-c':       
+        FileDeleter("trafficdata.csv")
+        break;
+
     case '-id':       
         FileDeleter("trafficdata.csv")
         break;
