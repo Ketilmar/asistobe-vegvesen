@@ -21,7 +21,7 @@ const FileWriter = (path, csv, writeMessage) => {
         if (err)
           console.log(err);
         else {
-          console.log(writeMessage, '- Appended');
+          console.log(writeMessage, '- Appended.');
         }
       }); 
     }
@@ -30,7 +30,7 @@ const FileWriter = (path, csv, writeMessage) => {
         if (err)
           console.log(err);
         else {
-          console.log(writeMessage, "- Overwrite");
+          console.log(writeMessage, "- New file.");
         }
       });
     }

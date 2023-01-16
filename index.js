@@ -25,6 +25,14 @@ switch (process.argv[2]) {
     case '-m':       
         FileDeleter("trafficdata.csv")
         break;
+
+    case '-id':       
+        FileDeleter("trafficdata.csv")
+        break;
+
+    case '-all':       
+        // FileDeleter("trafficdata.csv")
+        break;
 };
 
 FetchData(process.argv )

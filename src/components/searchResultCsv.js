@@ -1,5 +1,4 @@
 import { FileWriter, FileDeleter } from "./fileWriter.js";
-import fs from 'fs'
 
 /** Parses the result from '-s' option and converts it to a flat csv object */
 function SearchResultCsv(items) {
@@ -29,7 +28,7 @@ function SearchResultCsv(items) {
     const csv = [manualHeaders, ...rows].join('\r\n');
     
     const path = "searchResult.csv"
-    FileWriter('searchResult.csv', csv)
+    FileWriter('searchResult.csv', csv, 'Search result successfull')
 }
   
   export {SearchResultCsv}

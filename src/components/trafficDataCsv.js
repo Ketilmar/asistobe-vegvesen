@@ -1,13 +1,16 @@
+// TODO: - find a method to get the header keys more dynamicly
+// TODO  - Method to define number of rows
+
 import { FileWriter } from "./fileWriter.js";
 import fs from 'fs';
 
-/** Parses data object from 'trafficData' query and converts and write to csv file */
+/** Parses data object from 'trafficData', query and converts then sends object to FileWriter() */
 const TrafficDataCsv = (data) => {
     // console.log(JSON.stringify(data, null, 4));
 
     let headers = [];
 
-    /** takes an object input and iterates thru it to get all the values */
+    /** takes an object input and iterates thru. Pushes the values to headers array */
     const getValues = (data) => {
         if(typeof data !== 'object'){
             return [data]
