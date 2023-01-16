@@ -1,4 +1,5 @@
-import { FileWriter , FileExists} from "./fileWriter.js";
+import { FileWriter } from "./fileWriter.js";
+import fs from 'fs';
 
 /** Parses data object from 'trafficData' query and converts and write to csv file */
 const TrafficDataCsv = (data) => {
@@ -28,7 +29,7 @@ const TrafficDataCsv = (data) => {
 
       // if file exists, replace header object with empty array for new rows
       const path = "trafficdata.csv"
-      if (FileExists(path)){
+      if (fs.existsSync(path)){
         const csv = [[], ...rows].join('\r\n');
         FileWriter(path, csv,'ID ' +rowItems[0] + ' - Write row without header');
       }
