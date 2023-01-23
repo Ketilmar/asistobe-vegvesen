@@ -31,7 +31,9 @@ switch (process.argv[2]) {
         break;
 
     case '-id':       
-        FileDeleter("trafficdata.csv")
+        // FileDeleter("trafficdata.csv")
+        // FileDeleter("trafficVolume.csv")
+        FileDeleter("trafficVolumeByLength.csv")
         break;
 
     case '-all':       

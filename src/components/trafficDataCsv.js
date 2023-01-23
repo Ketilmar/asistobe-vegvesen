@@ -9,6 +9,7 @@ const TrafficDataCsv = (data) => {
     // console.log(JSON.stringify(data, null, 4));
 
     let headers = [];
+    let i = 0;
 
     /** takes an object input and iterates thru. Pushes the values to headers array */
     const getValues = (data) => {
@@ -18,13 +19,14 @@ const TrafficDataCsv = (data) => {
 
         if (data === null){return ''}
         headers.push(Object.keys(data));
+        console.log(i++);
         return Object.values(data).flatMap(v => getValues(v))
       }
       
       const rowItems = getValues(data)
   
       // this will split the array of values into their respective arrays
-      let numRows = 41; //define number of rows.
+      let numRows = 50 //41; //define number of rows.
       let rows = [];
       for (let i = 0; i < rowItems.length; i += numRows) {
           rows.push(rowItems.slice(i, i + numRows));
