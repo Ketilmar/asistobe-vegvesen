@@ -18,26 +18,23 @@ import { FileDeleter } from "./src/components/fileWriter.js";
 
 // Deletes existing files before prog. runs.        
 switch (process.argv[2]) {
-    case '-s':      
+    case '-s':
         FileDeleter("searchResult.csv")
         break;
 
-    case '-m':       
-        FileDeleter("trafficdata.csv")
-        break;
-
-    case '-c':       
-        FileDeleter("trafficdata.csv")
-        break;
-
-    case '-id':       
-        // FileDeleter("trafficdata.csv")
-        // FileDeleter("trafficVolume.csv")
+    case '-m':
         FileDeleter("trafficVolumeByLength.csv")
         break;
 
-    case '-all':       
-        // FileDeleter("trafficdata.csv")
+    case '-c':
+        FileDeleter("trafficVolumeByLength.csv")
+        break;
+
+    case '-id':
+        FileDeleter("trafficVolumeByLength.csv")
+        break;
+
+    case '-all':
         break;
 };
 

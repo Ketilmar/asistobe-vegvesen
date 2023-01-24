@@ -3,8 +3,6 @@ import { trafficRegPoints, trafficRegPointsQuery, trafficData, queryCounty, traf
 import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
 import filterTrafficPoints from "./filterTrafficPoints.js";
-import { TrafficDataCsv } from "./trafficDataCsv.js";
-import { TrafficVolumeCsv } from "./trafficVolumeCsv.js";
 import {fromDateDefault, toDateDefault} from "./getDefaultDates.js"
 import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
 
@@ -38,7 +36,6 @@ const FetchData = (cmdInput) => {
     // select specific reg.point
     case '-id':
       // querySwitch = trafficData(cmdInput[3], fromDate, toDate);
-      // querySwitch = trafficVolume(cmdInput[3], fromDate, toDate);
       querySwitch = trafficVolumeByLength(cmdInput[3], fromDate, toDate);
       break;
 
@@ -77,8 +74,6 @@ const FetchData = (cmdInput) => {
           break;
 
         case '-id':
-          // TrafficDataCsv(data)
-          // TrafficVolumeCsv(data)
           TrafficVolumeByLengthCsv(data)
           break;
 
