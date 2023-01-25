@@ -7,7 +7,7 @@ function FileDeleter(path){
         console.error(err.message);
         return;
     }
-    console.log("File deleted successfully");
+    console.log(path, "--> deleted successfully");
   })
 };
 
@@ -19,7 +19,7 @@ const FileWriter = (path, csv, writeMessage) => {
         if (err)
           console.log(err);
         else {
-          console.log(writeMessage, '- Appended.');
+          console.log(writeMessage, '- Appended to -->', path);
         }
       }); 
     }
@@ -28,7 +28,7 @@ const FileWriter = (path, csv, writeMessage) => {
         if (err)
           console.log(err);
         else {
-          console.log(writeMessage, "- New file:", path);
+          console.log(writeMessage, "- New file -->", path);
         }
       });
     }

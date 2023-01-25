@@ -1,4 +1,4 @@
-import { trafficRegPoints, trafficRegPointsQuery, trafficData, queryCounty, trafficVolume, trafficVolumeByLength } from "./queries.js";
+import { trafficRegPoints, trafficRegPointsQuery, queryCounty, queryMunicipality, trafficVolumeByLength } from "./queries.js";
 // because early node version in Docker dev environment, i must install node-fetch and import fetch. Just uncomment to use with later node version.
 import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
@@ -9,10 +9,8 @@ import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
 
 const fromDate = process.argv[4] || fromDateDefault;
 const toDate = process.argv[5] || toDateDefault;
-console.log({fromDate, toDate});
 
 const FetchData = (cmdInput) => {
-
   let querySwitch = null;
 
   // selects graphQL options based on cmd input
@@ -23,9 +21,17 @@ const FetchData = (cmdInput) => {
       querySwitch = trafficRegPoints;
       break;
 
+      case '-clist':
+      querySwitch = queryCounty;
+      break;
+
     // list municipality reg.points
     case '-m':
       querySwitch = trafficRegPoints;
+      break;
+
+    case '-mlist':
+      querySwitch = queryMunicipality;
       break;
       
     // search reg.points by name or number
@@ -35,7 +41,6 @@ const FetchData = (cmdInput) => {
 
     // select specific reg.point
     case '-id':
-      // querySwitch = trafficData(cmdInput[3], fromDate, toDate);
       querySwitch = trafficVolumeByLength(cmdInput[3], fromDate, toDate);
       break;
 
@@ -70,14 +75,20 @@ const FetchData = (cmdInput) => {
       // Send fetch return to the various parsers
       switch (cmdInput[2]){
         case '-s':
-          SearchResultCsv(data)
+          SearchResultCsv(data);
+          break;
+          
+        case '-clist':
+          // console.log(JSON.stringify(data, null, 4))
+          console.log(data.data.areas.counties.map(county => county));
+          break;
+
+        case '-mlist':
+          console.log(data.data.areas.municipalities.map(municipality => municipality));
           break;
 
         case '-id':
-          TrafficVolumeByLengthCsv(data)
-          break;
-
-        case '-all':
+          TrafficVolumeByLengthCsv(data);
           break;
 
         default:

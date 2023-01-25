@@ -1,8 +1,18 @@
 
-  // get a list of countys
+  // get a list of counties
   const queryCounty = `{
     areas {
       counties {
+        name
+        number
+      }
+    }
+  }`
+
+  // get a list of municipalities
+  const queryMunicipality = `{
+    areas {
+      municipalities {
         name
         number
       }
@@ -176,7 +186,7 @@ const trafficRegPoints = `
         }
       }
       volume {
-        byHour(from: "${dateFrom}T00:00:00+01:00", to: "${dateTo}T04:00:00+01:00") {
+        byHour(from: "${dateFrom}T00:00:00+01:00", to: "${dateTo}T00:00:00+01:00") {
           edges {
             node {
               from
@@ -207,4 +217,4 @@ const trafficRegPoints = `
   
   
 
-  export {trafficRegPoints, trafficRegPointsQuery, trafficData, trafficVolumeByLength, trafficVolume,  queryCounty}
+  export {trafficRegPoints, trafficRegPointsQuery, trafficData, trafficVolumeByLength, trafficVolume,  queryCounty, queryMunicipality}
