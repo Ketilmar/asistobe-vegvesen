@@ -1,5 +1,3 @@
-// TODO: - find a method to get the header keys more dynamicly
-
 import { FileWriter } from "./fileWriter.js";
 import fs from 'fs';
 
@@ -7,54 +5,64 @@ import fs from 'fs';
 const TrafficVolumeByLengthCsv = (data) => {
   // console.log(JSON.stringify(data, null, 4));
 
-  // 'byLengthRange' counter
-  let collumnCounter = 0;
+  let tmpRowData = [];
+  let rowData = [];
 
-  /** takes an object input and iterates thru. Collects all values in rowItems variable as a flat array. Values returned as string */
+  /** Iterates thru the input object and extract all values. Pushes values to rowData as an array of arrays. Values stored as string */
   const getValues = (data) => {
+    // If not an object, get the value and push it to tmpRowData array
     if(typeof data !== 'object'){
-      // Replace all commas within values, as comma is used to separate values in our csv. Replace with hyphen.
-      return [data.toString().replace(/[\,]+/g, ' -')];
+      tmpRowData.push(data.toString().replace(/[\,]+/g, ' -'))
+      return;
     }
 
-    if (data === null){return ''};
+    // Handles empty data
+    if (data === null){return};
 
-    // here i count where 'byLengthRange' data is available. 
-    // Read as: how many collunms of lengthRange is available in this timeRange
-    // This is used to identify where to slice the 'rowItems' array into separate arrays (per timeRange)
+    // Handles objects with no 'edge' data
+    if (Object.keys(data).includes('edges')){
+      if (data.edges.length === 0){
+        rowData.push(tmpRowData.splice(0,6));
+        rowData.push(['Contains no data'])
+      }
+    }
+    
+    // when loop gets to 'byLengthRange', it takes the data collected in tmpRowData and stores it in rowData as an array
+    // updates rowData array with 'idInfo' at index 0, then volume data for each time range in their respective index
+    // First loop contains 'idInfo' data, so we account for that with '+ 6'. (could maybe use a high 'deleteCount' number instead of using 'byLengthRange' length)
     if (Object.keys(data).includes('byLengthRange')){
-        collumnCounter = data.byLengthRange.length
+        rowData.push(tmpRowData.splice(0, data.byLengthRange.length + 6));
     };
 
-    return Object.values(data).flatMap(v => getValues(v));
+    // each loop it takes the data object and flattens it to a new array. Then send the new array thru getValues() again. 
+    Object.values(data).flatMap(v => getValues(v));
   };
 
-  const rowItems = getValues(data);
+  getValues(data);
 
   // extract data for adding to each row later (id, name, county, municipality, lat, lon)
-  let idInfo = rowItems.splice(0,6)
+  let idInfo = rowData.shift();
+  // console.log({idInfo});
 
-  let numCol = collumnCounter + 4 //Add 4 to include 
-  let rows = [];
-  // this will split the array of values into their respective arrays (rows) per timeRange
-  for (let i = 0; i < rowItems.length; i += numCol) {
-      rows.push(idInfo + ',' + rowItems.slice(i, i + numCol));
+  // put in 'idInfo' in each row
+  for (let item in rowData){
+    rowData[item].unshift(idInfo.toString())
   };
-  
+
   // if file exists (and thus header too), replace header object with empty array for new rows
   const path = "trafficVolumeByLength.csv"
   if (fs.existsSync(path)){
-    const csv = [[], ...rows ].join('\r\n');
-    FileWriter(path, csv,'ID ' +idInfo[0] + ' - Write row without header');
+    const csv = [[], ...rowData ].join('\r\n');
+    FileWriter(path, csv,'ID ' + idInfo[0] + ' - Write row without header -->');
   }
   else {
     // Headers must be defined manually
     let manualHeaders = ['id','name','county','municipality', 'lat','lon','From', 'To', 'total-volume','Total-coverage', 'LengthRange:..-5.6', 'LengthRange:5.6-..','LengthRange:5.6-7.6','LengthRange:7.6-12.5','LengthRange:12.5-16','LengthRange:16-24','LengthRange:24-..']
 
     // join header and body, and break into separate rows
-    const csv = [manualHeaders, ...rows].join('\r\n');
+    const csv = [manualHeaders, ...rowData].join('\r\n');
 
-    FileWriter(path, csv, 'ID ' +idInfo[0] + ' - Write row with header');
+    FileWriter(path, csv, 'ID ' + idInfo[0] + ' - Write row with header -->');
   };
 };
 
