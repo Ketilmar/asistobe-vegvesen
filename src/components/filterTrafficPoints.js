@@ -32,7 +32,10 @@ const filterByCounty = (trafficPoints, county) => {
     return filteredTrafficPoints;
 };
 
-let trafficPointsArray = [];
+const getAll = (trafficPoints) => {
+    return trafficPoints.data.trafficRegistrationPoints;
+};
+
 /** Function with a switch to filter County or Municipality based on provided cmd input */
 const filterTrafficPoints = (fetchType, name, trafficPoints) => {
     let filteredTrafficPoints = null;
@@ -46,13 +49,18 @@ const filterTrafficPoints = (fetchType, name, trafficPoints) => {
             filteredTrafficPoints = filterByCounty(trafficPoints, name);
             break;
 
+        case "-all":
+            filteredTrafficPoints = getAll(trafficPoints);
+            break;
+
         default:
             // If wrong inputs console log which inputs are correct
             console.log("Check your input. Please use -m <municipality> or -c <county>. You typed", {fetchType});
             break;
     }
 
-    // iterate thru array to run fetch on each trafficpoint id
+    // iterate thru array to run fetch on each trafficpoint id.
+    // time delayed to reduce network error. You can test to lower for speed or rise to reduce errors.
     filteredTrafficPoints.map((id, index) => {
         setTimeout(() => {
           // param to fetchData made to look like process.argv array for use in switch

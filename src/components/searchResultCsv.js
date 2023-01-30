@@ -1,4 +1,4 @@
-import { FileWriter, FileDeleter } from "./fileWriter.js";
+import { FileWriter } from "./fileWriter.js";
 
 /** Parses the result from '-s' option and converts it to a flat csv object */
 function SearchResultCsv(items) {
@@ -9,9 +9,9 @@ function SearchResultCsv(items) {
         return [...values, data]
       }
       return Object.values(data).flatMap(v => getValues(v, values))
-    }
+    };
     
-    const rowItems = getValues(items)
+    const rowItems = getValues(items);
 
     // define number of rows.
     // this will split the array of values into separate arrays
@@ -28,7 +28,7 @@ function SearchResultCsv(items) {
     const csv = [manualHeaders, ...rows].join('\r\n');
     
     const path = "searchResult.csv"
-    FileWriter('searchResult.csv', csv, 'Search result successfull')
-}
+    FileWriter('searchResult.csv', csv, 'Search result successfull');
+};
   
   export {SearchResultCsv}
