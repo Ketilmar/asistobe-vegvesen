@@ -170,6 +170,7 @@ const trafficRegPoints = `
       trafficRegistrationPoint {
         id
         name
+        trafficRegistrationType
         location {
           county {
             name
