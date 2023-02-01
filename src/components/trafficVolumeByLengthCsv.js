@@ -22,7 +22,7 @@ const TrafficVolumeByLengthCsv = (data) => {
     // Handles objects with no 'edge' data
     if (Object.keys(data).includes('edges')){
       if (data.edges.length === 0){
-        rowData.push(tmpRowData.splice(0,6));
+        rowData.push(tmpRowData.splice(0,7));
         rowData.push(['Contains no data'])
       }
     }
@@ -31,7 +31,7 @@ const TrafficVolumeByLengthCsv = (data) => {
     // updates rowData array with 'idInfo' at index 0, then volume data for each time range in their respective index
     // First loop contains 'idInfo' data, so we account for that with '+ 6'. (could maybe use a high 'deleteCount' number instead of using 'byLengthRange' length)
     if (Object.keys(data).includes('byLengthRange')){
-        rowData.push(tmpRowData.splice(0, data.byLengthRange.length + 6));
+        rowData.push(tmpRowData.splice(0, data.byLengthRange.length + 7));
     };
 
     // each loop it takes the data object and flattens it to a new array. Then send the new array thru getValues() again. 
@@ -57,7 +57,7 @@ const TrafficVolumeByLengthCsv = (data) => {
   }
   else {
     // Headers must be defined manually
-    let manualHeaders = ['id','name','county','municipality', 'lat','lon','From', 'To', 'total-volume','Total-coverage', 'LengthRange:..-5.6', 'LengthRange:5.6-..','LengthRange:5.6-7.6','LengthRange:7.6-12.5','LengthRange:12.5-16','LengthRange:16-24','LengthRange:24-..']
+    let manualHeaders = ['id','name','trafficRegistrationType','county','municipality', 'lat','lon','From', 'To', 'total-volume','Total-coverage', 'LengthRange:..-5.6', 'LengthRange:5.6-..','LengthRange:5.6-7.6','LengthRange:7.6-12.5','LengthRange:12.5-16','LengthRange:16-24','LengthRange:24-..']
 
     // join header and body, and break into separate rows
     const csv = [manualHeaders, ...rowData].join('\r\n');
