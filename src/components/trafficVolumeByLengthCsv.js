@@ -35,6 +35,7 @@ const getValues = (data) => {
   // each loop it takes the data object and flattens it to a new array. Then send the new array thru getValues() again. 
   Object.values(data).flatMap(v => getValues(v));
 
+  // console.log({rowData});
   return rowData;
 };
 

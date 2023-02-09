@@ -169,10 +169,16 @@ const jsonData = `{
 let jsonObj = JSON.parse(jsonData);
 
 test('testing av getValues', () => {
-  expect(getValues(jsonObj)).toContainEqual(["74808V805815", "Bønesskogen nord", "VEHICLE", "Vestland", "Bergen", "60.331065", "5.29924"], ["2023-02-02T00:00:00+01:00", "2023-02-02T01:00:00+01:00", "11", "100", "7", "4", "1", "0", "2", "1"]); // Denne fungerer med og uten 'edge' data
+    let item1 = ["74808V805815", "Bønesskogen nord", "VEHICLE", "Vestland", "Bergen", "60.331065", "5.29924"]
+    let item2 = ["2023-02-02T00:00:00+01:00", "2023-02-02T01:00:00+01:00", "7", "100", "6", "1", "0", "0", "1", "0","0"]
+    let actual = getValues(jsonObj)
+
+    expect(actual).toContainEqual(item1); // Denne fungerer med og uten 'edge' data
+    expect(actual).toContainEqual(item2)
+    expect(actual).toEqual([item1,item2])
   // expect(getValues(jsonObj)).toContainEqual(["74808V805815", "Bønesskogen nord", "VEHICLE", "Vestland", "Bergen", "60.331065", "5.29924" ]); // Denne fungerer
   // expect(getValues(jsonObj)).toContainEqual(["74808V805815", "Bønesskogen nord", "VEHICLE", "Vestland", "Bergen", "60.331065", "5.29924"], ["Contains no data"]); // Denne fungerer uten 'edge' data
-  expect(getValues(jsonObj).tmpRowData).toBe([])
+//   expect(getValues(jsonObj).tmpRowData).toBe([])
 })
 
 
@@ -264,3 +270,6 @@ bound();
 console.log(myMock1.mock);
 // > [ <b> ]|
 })
+
+
+ jest.mock("node-fetch")
