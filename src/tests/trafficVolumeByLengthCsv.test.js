@@ -173,7 +173,7 @@ test('testing av getValues', () => {
     let item2 = ["2023-02-02T00:00:00+01:00", "2023-02-02T01:00:00+01:00", "7", "100", "6", "1", "0", "0", "1", "0","0"]
     let actual = getValues(jsonObj)
 
-    expect(actual).toContainEqual(item1); // Denne fungerer med og uten 'edge' data
+    expect(actual).toContainEqual(item1);
     expect(actual).toContainEqual(item2)
     expect(actual).toEqual([item1,item2])
   // expect(getValues(jsonObj)).toContainEqual(["74808V805815", "Bønesskogen nord", "VEHICLE", "Vestland", "Bergen", "60.331065", "5.29924" ]); // Denne fungerer
