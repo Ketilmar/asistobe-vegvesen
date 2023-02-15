@@ -1,6 +1,7 @@
-import { TrafficVolumeByLengthCsv, outerFunc, forEach } from "../components/trafficVolumeByLengthCsv";
+import { TrafficVolumeByLengthCsv, getValues, forEach } from "../components/trafficVolumeByLengthCsv";
 // const TrafficVolumeByLengthCsv = require('../components/trafficVolumeByLengthCsv')
-import {jest} from '@jest/globals'
+import {expect, jest} from '@jest/globals'
+import { trafficVolumeByLength } from "../components/queries";
 
 const jsonData = `{
     "data": {
@@ -100,60 +101,106 @@ const jsonData = `{
     }
   }`
 
-let jsonObj = JSON.parse(jsonData);
+
 
 describe('getValues', () => {
     let data;
+    let actual;
     let expectedOutput;
-    let item1 = ["74808V805815", "Bønesskogen nord", "VEHICLE", "Vestland", "Bergen", "60.331065", "5.29924"]
-    let item2 = ["2023-02-02T00:00:00+01:00", "2023-02-02T01:00:00+01:00", "7", "100", "6", "1", "0", "0", "1", "0","0"]
-    let actual = outerFunc(jsonObj)
-  
-    beforeEach(() => {
-      // data = undefined;
-    //   data = jsonObj
-      expectedOutput = undefined;
-    });
+    let jsonObj = JSON.parse(jsonData);
+    
   
     it('should handle a complete object', () => {
-        //data = getValues(jsonObj.data.trafficData.volume.byHour.edges[0])
-        expectedOutput = [item1,item2];
+        let id = ["74808V805815", "Bønesskogen nord", "VEHICLE", "Vestland", "Bergen", "60.331065", "5.29924"]
+        let node= ["2023-02-02T00:00:00+01:00", "2023-02-02T01:00:00+01:00", "7", "100", "6", "1", "0", "0", "1", "0","0"]
+        
+        actual = getValues(jsonObj)
+        expectedOutput = [id,node];
   
       expect(actual).toEqual(expectedOutput);
     });
-  
-    it('should handle objects with byLengthRange', () => {
-      data = `{"edges": [
-        {"byLengthRange": [
-        {
-            "total": {
-                "volumeNumbers": {
-                    "volume": 6
-                }
-            }
-        }]}]}`
+
+
+    it('should handle id items', () => {
+        data = `{"data": [
+                    {"trafficRegistrationPoint": {
+                        "id": "74808V805815",
+                        "name": "Bønesskogen nord"
+                    }}
+                    ]
+                }`
 
         let byLengthRangeData = JSON.parse(data);
-        let actual_2 = outerFunc(byLengthRangeData)
-      // data = getValues(data.data.trafficData.volume.byHour.edges[0].node.byLengthRange[0].total.volumeNumbers.volume)
-    //   expectedOutput = {byLengthRange:[1,2,3]};
-    expectedOutput = [6];
+        
+        actual = getValues(byLengthRangeData)
+        expectedOutput = [["74808V805815", "Bønesskogen nord"]];
   
-      expect(actual_2).toEqual(expectedOutput);
+        expect(actual).toEqual(expectedOutput);
     });
   
-    it('should handle non-objects', () => {
-      data = 1;
-      expectedOutput = [['1']];
+
+    it('should handle objects with byLengthRange', () => {
+        data = `{"data": [
+                    {"byLengthRange": [
+                        {
+                            "total": {
+                                "volumeNumbers": {
+                                    "volume": 6
+                                }
+                            }
+                        }]
+                    }]
+                }`
+
+        let byLengthRangeData = JSON.parse(data);
+        
+        actual = getValues(byLengthRangeData)
+        expectedOutput = [[],["6"]];
   
-    //   expect(getValues(data)).toEqual(expectedOutput);
+        expect(actual).toEqual(expectedOutput);
     });
+
+
+    it('should handle objects with empty byLengthRange', () => {
+        data = `{"data": [
+                    {"node": {
+                        "total": {
+                            "volumeNumbers": {
+                                "volume": 7
+                                },
+                            "coverage": {
+                                "percentage": 100
+                            }
+                        }
+                    },
+                
+                    "byLengthRange": []
+                    }]
+                }`
+
+        let nodeData = JSON.parse(data);
+        
+        actual = getValues(nodeData)
+        expectedOutput = [[],["7", "100"]];
   
-    it('should handle null inputs', () => {
-      data = null;
-      expectedOutput = [];
-  
-    //   expect(getValues(data)).toEqual(expectedOutput);
+        expect(actual).toEqual(expectedOutput);
+    });
+
+
+    it('Should handle empty edge data', () => {
+        data = `{"data":
+                    {
+                        "edges": []
+                    }
+                }`
+
+        let noEdgeData = JSON.parse(data);
+        
+        actual = getValues(noEdgeData)
+        expectedOutput = [[],['No data']];
+
+        expect(actual).toEqual(expectedOutput);
     });
   });
-  
+
+
