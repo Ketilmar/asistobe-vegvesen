@@ -1,5 +1,6 @@
-import { TrafficVolumeByLengthCsv, getValues, forEach } from "../components/trafficVolumeByLengthCsv";
+import { TrafficVolumeByLengthCsv, getValues } from "../components/trafficVolumeByLengthCsv";
 // const TrafficVolumeByLengthCsv = require('../components/trafficVolumeByLengthCsv')
+import { FileDeleter } from "../components/fileWriter";
 import {expect, jest} from '@jest/globals'
 import { trafficVolumeByLength } from "../components/queries";
 
@@ -104,7 +105,7 @@ const jsonData = `{
 
 
 describe('getValues', () => {
-    let data;
+    let json;
     let actual;
     let expectedOutput;
     let jsonObj = JSON.parse(jsonData);
@@ -122,7 +123,7 @@ describe('getValues', () => {
 
 
     it('should handle id items', () => {
-        data = `{"data": [
+        json = `{"data": [
                     {"trafficRegistrationPoint": {
                         "id": "74808V805815",
                         "name": "Bønesskogen nord"
@@ -130,7 +131,7 @@ describe('getValues', () => {
                     ]
                 }`
 
-        let byLengthRangeData = JSON.parse(data);
+        let byLengthRangeData = JSON.parse(json);
         
         actual = getValues(byLengthRangeData)
         expectedOutput = [["74808V805815", "Bønesskogen nord"]];
@@ -140,7 +141,7 @@ describe('getValues', () => {
   
 
     it('should handle objects with byLengthRange', () => {
-        data = `{"data": [
+        json = `{"data": [
                     {"byLengthRange": [
                         {
                             "total": {
@@ -152,7 +153,7 @@ describe('getValues', () => {
                     }]
                 }`
 
-        let byLengthRangeData = JSON.parse(data);
+        let byLengthRangeData = JSON.parse(json);
         
         actual = getValues(byLengthRangeData)
         expectedOutput = [[],["6"]];
@@ -162,7 +163,7 @@ describe('getValues', () => {
 
 
     it('should handle objects with empty byLengthRange', () => {
-        data = `{"data": [
+        json = `{"data": [
                     {"node": {
                         "total": {
                             "volumeNumbers": {
@@ -178,7 +179,7 @@ describe('getValues', () => {
                     }]
                 }`
 
-        let nodeData = JSON.parse(data);
+        let nodeData = JSON.parse(json);
         
         actual = getValues(nodeData)
         expectedOutput = [[],["7", "100"]];
@@ -188,13 +189,13 @@ describe('getValues', () => {
 
 
     it('Should handle empty edge data', () => {
-        data = `{"data":
+        json = `{"data":
                     {
                         "edges": []
                     }
                 }`
 
-        let noEdgeData = JSON.parse(data);
+        let noEdgeData = JSON.parse(json);
         
         actual = getValues(noEdgeData)
         expectedOutput = [[],['No data']];
@@ -204,3 +205,46 @@ describe('getValues', () => {
   });
 
 
+
+  describe('TrafficVolumeByLengthCsv', () => {
+    let json;
+    let actual;
+    let expectedOutput;
+    let id = ["74808V805815", "Bønesskogen nord", "VEHICLE", "Vestland", "Bergen", "60.331065", "5.29924"]
+    let node= ["2023-02-02T00:00:00+01:00", "2023-02-02T01:00:00+01:00", "7", "100", "6", "1", "0", "0", "1", "0","0"]   
+    let jsonObj = JSON.parse(jsonData);
+    const jestCallback = jest.fn();
+    TrafficVolumeByLengthCsv(jsonObj, jestCallback);
+
+    it('Should extract idInfo', () => {
+        expectedOutput = id
+        actual = jestCallback.mock.calls[0][0]
+
+        expect(actual).toEqual(expectedOutput)
+    })
+
+
+    it('should have a complete row of trafficdata', () => {
+        expectedOutput = [id.toString() , ...node]
+        actual = jestCallback.mock.calls[1][0]
+
+        expect(actual).toEqual(expectedOutput)
+    })
+
+
+    it('Should have a ready csv string without header', () => {
+        expectedOutput = "\r\n74808V805815,Bønesskogen nord,VEHICLE,Vestland,Bergen,60.331065,5.29924,2023-02-02T00:00:00+01:00,2023-02-02T01:00:00+01:00,7,100,6,1,0,0,1,0,0";
+        actual = jestCallback.mock.calls[2][0]
+
+        expect(actual).toEqual(expectedOutput)
+    })
+
+    it('Should have a ready csv string with header', () => {
+        FileDeleter("trafficVolumeByLength.csv")
+        expectedOutput = "id,name,trafficRegistrationType,county,municipality,lat,lon,From,To,total-volume,Total-coverage,LengthRange:..-5.6,LengthRange:5.6-..,LengthRange:5.6-7.6,LengthRange:7.6-12.5,LengthRange:12.5-16,LengthRange:16-24,LengthRange:24-..\r\n74808V805815,Bønesskogen nord,VEHICLE,Vestland,Bergen,60.331065,5.29924,2023-02-02T00:00:00+01:00,2023-02-02T01:00:00+01:00,7,100,6,1,0,0,1,0,0";
+        actual = jestCallback.mock.lastCall[0]
+
+        expect(actual).toEqual(expectedOutput)
+    })
+
+  });

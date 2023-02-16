@@ -3,18 +3,20 @@ import { trafficRegPoints, trafficRegPointsQuery, queryCounty, queryMunicipality
 import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
 import filterTrafficPoints from "./filterTrafficPoints.js";
-import {fromDateDefault, toDateDefault} from "./getDefaultDates.js"
+// import {fromDateDefault, toDateDefault} from "./getDefaultDates.js"
 import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
 
+// const cmdSwitch = process.argv[2]
+// const id = process.argv[3]
+// const fromDate = process.argv[4] || fromDateDefault;
+// const toDate = process.argv[5] || toDateDefault;
+// const path = process.argv[process.argv.length] || "trafficVolumeByLength.csv";
 
-const fromDate = process.argv[4] || fromDateDefault;
-const toDate = process.argv[5] || toDateDefault;
-
-const FetchData = (cmdInput) => {
+const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
   let querySwitch = null;
 
   // selects graphQL options based on cmd input
-  switch (cmdInput[2]) {
+  switch (cmdSwitch) {
     // list county reg.points
     case '-c':
       // querySwitch = queryCounty;
@@ -36,12 +38,12 @@ const FetchData = (cmdInput) => {
       
     // search reg.points by name or number
     case '-s':
-      querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${cmdInput[3]}"})` + trafficRegPointsQuery;
+      querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${id}"})` + trafficRegPointsQuery;
       break;
 
     // select specific reg.point
     case '-id':
-      querySwitch = trafficVolumeByLength(cmdInput[3], fromDate, toDate);
+      querySwitch = trafficVolumeByLength(id, fromDate, toDate, path);
       break;
 
     // list all reg.points
@@ -51,7 +53,7 @@ const FetchData = (cmdInput) => {
 
     // stops further execution of program
     default: 
-      console.log("Check your input. You typed:", cmdInput[2], cmdInput[3]);
+      console.log("Check your input. You typed:", cmdSwitch, id);
       return;
   }
 
@@ -73,7 +75,7 @@ const FetchData = (cmdInput) => {
       
 
       // Send fetch return to the various parsers
-      switch (cmdInput[2]){
+      switch (cmdSwitch){
         case '-s':
           SearchResultCsv(data);
           break;
@@ -92,7 +94,7 @@ const FetchData = (cmdInput) => {
           break;
 
         default:
-          filterTrafficPoints(cmdInput[2], cmdInput[3], data);
+          filterTrafficPoints(cmdSwitch, id, fromDate, toDate, path, data);
           break; 
       }
 
@@ -105,4 +107,4 @@ const FetchData = (cmdInput) => {
   
 };
 
-export {FetchData, fromDate, toDate}
+export {FetchData}

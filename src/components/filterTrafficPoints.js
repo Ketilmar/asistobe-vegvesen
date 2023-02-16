@@ -1,13 +1,13 @@
-import { FetchData, fromDate, toDate } from "./fetchData.js";
+import { FetchData} from "./fetchData.js";
 
 /** This function filters the traffic points based on the municipality name provided */
-const filterByMunicipality = (trafficPoints, municipality) => {
-    const { trafficRegistrationPoints } = trafficPoints.data;
+const filterByMunicipality = (id, data) => {
+    const { trafficRegistrationPoints } = data.data;
 
     const filteredTrafficPoints = trafficRegistrationPoints.filter((trafficPoint) => {
         const { name } = trafficPoint.location.municipality;
 
-        if (name.toLowerCase() === municipality) {
+        if (name.toLowerCase() === id) {
             return true;
         } 
         else return false;
@@ -17,13 +17,13 @@ const filterByMunicipality = (trafficPoints, municipality) => {
 };
 
 /** This function filters the traffic points based on the county name provided */
-const filterByCounty = (trafficPoints, county) => {
-    const trafficRegistrationPoints  = trafficPoints.data.trafficRegistrationPoints;
+const filterByCounty = (id, data) => {
+    const trafficRegistrationPoints  = data.data.trafficRegistrationPoints;
 
     const filteredTrafficPoints = trafficRegistrationPoints.filter((trafficPoint) => {
         const { name } = trafficPoint.location.county;
 
-        if (name.toLowerCase() === county) {
+        if (name.toLowerCase() === id) {
             return true;
         } 
         else return false;
@@ -37,20 +37,20 @@ const getAll = (trafficPoints) => {
 };
 
 /** Function with a switch to filter County or Municipality based on provided cmd input */
-const filterTrafficPoints = (fetchType, name, trafficPoints) => {
+const filterTrafficPoints = (cmdSwitch, id, fromDate, toDate, path, data) => {
     let filteredTrafficPoints = null;
 
-    switch (fetchType) {
+    switch (cmdSwitch) {
         case "-m":
-            filteredTrafficPoints = filterByMunicipality(trafficPoints, name);
+            filteredTrafficPoints = filterByMunicipality(id, data);
             break;
 
         case "-c":
-            filteredTrafficPoints = filterByCounty(trafficPoints, name);
+            filteredTrafficPoints = filterByCounty(id, data);
             break;
 
         case "-all":
-            filteredTrafficPoints = getAll(trafficPoints);
+            filteredTrafficPoints = getAll(data);
             break;
 
         default:
@@ -64,9 +64,9 @@ const filterTrafficPoints = (fetchType, name, trafficPoints) => {
     filteredTrafficPoints.map((id, index) => {
         setTimeout(() => {
           // param to fetchData made to look like process.argv array for use in switch
-          FetchData([0, 0, "-id", id.id, fromDate, toDate]);
+          FetchData(cmdSwitch, id.id, fromDate, toDate, path);
     
-        }, 300 * index);
+        }, 3000 * index);
       });
 
     // return filteredTrafficPoints

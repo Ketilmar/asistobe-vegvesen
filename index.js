@@ -3,6 +3,7 @@
 
 import { FetchData } from "./src/components/fetchData.js";
 import { FileDeleter } from "./src/components/fileWriter.js";
+import {fromDateDefault, toDateDefault} from "./src/components/getDefaultDates.js"
 
 // HOW TO USE:
 // timeRange defaults to last complete 24 hour dataset (00:00 to 00:00)
@@ -29,8 +30,15 @@ import { FileDeleter } from "./src/components/fileWriter.js";
     // get data from all trafficpoints
         // node . -all [yyyy-mm-dd yyyy-mm-dd]
 
+
+const cmdSwitch = process.argv[2]
+const id = process.argv[3]
+const fromDate = process.argv[4] || fromDateDefault;
+const toDate = process.argv[5] || toDateDefault;
+const path = process.argv[process.argv.length] || "trafficVolumeByLength.csv";
+
 // Deletes existing files.        
-switch (process.argv[2]) {
+switch (cmdSwitch) {
     case '-s':
         FileDeleter("searchResult.csv")
         break;
@@ -52,4 +60,4 @@ switch (process.argv[2]) {
         break;
 };
 
-FetchData(process.argv )
+FetchData(cmdSwitch, id, fromDate, toDate, path)
