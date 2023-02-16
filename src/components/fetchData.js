@@ -43,7 +43,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
 
     // select specific reg.point
     case '-id':
-      querySwitch = trafficVolumeByLength(id, fromDate, toDate, path);
+      querySwitch = trafficVolumeByLength(id, fromDate, toDate);
       break;
 
     // list all reg.points
@@ -53,7 +53,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
 
     // stops further execution of program
     default: 
-      console.log("Check your input. You typed:", cmdSwitch, id);
+      console.log("Check your input. You typed:", cmdSwitch, id, fromDate, toDate, path);
       return;
   }
 
@@ -77,7 +77,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
       // Send fetch return to the various parsers
       switch (cmdSwitch){
         case '-s':
-          SearchResultCsv(data);
+          SearchResultCsv(data, path);
           break;
           
         case '-clist':
@@ -90,7 +90,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
           break;
 
         case '-id':
-          TrafficVolumeByLengthCsv(data);
+          TrafficVolumeByLengthCsv(data, path);
           break;
 
         default:

@@ -63,10 +63,9 @@ const filterTrafficPoints = (cmdSwitch, id, fromDate, toDate, path, data) => {
     // time delayed to reduce network error. You can test to lower for speed or rise to reduce errors.
     filteredTrafficPoints.map((id, index) => {
         setTimeout(() => {
-          // param to fetchData made to look like process.argv array for use in switch
-          FetchData(cmdSwitch, id.id, fromDate, toDate, path);
+          FetchData('-id', id.id, fromDate, toDate, path);
     
-        }, 3000 * index);
+        }, 300 * index);
       });
 
     // return filteredTrafficPoints

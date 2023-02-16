@@ -30,34 +30,16 @@ import {fromDateDefault, toDateDefault} from "./src/components/getDefaultDates.j
     // get data from all trafficpoints
         // node . -all [yyyy-mm-dd yyyy-mm-dd]
 
+    // Output path
+        // Target path at the end of command. Defaults to 'results.csv' in project root folder.
+
 
 const cmdSwitch = process.argv[2]
 const id = process.argv[3]
 const fromDate = process.argv[4] || fromDateDefault;
 const toDate = process.argv[5] || toDateDefault;
-const path = process.argv[process.argv.length] || "trafficVolumeByLength.csv";
+const path = process.argv[process.argv.length -1] || "result.csv";
 
-// Deletes existing files.        
-switch (cmdSwitch) {
-    case '-s':
-        FileDeleter("searchResult.csv")
-        break;
-
-    case '-m':
-        FileDeleter("trafficVolumeByLength.csv")
-        break;
-
-    case '-c':
-        FileDeleter("trafficVolumeByLength.csv")
-        break;
-
-    case '-id':
-        FileDeleter("trafficVolumeByLength.csv")
-        break;
-
-    case '-all':
-        FileDeleter("trafficVolumeByLength.csv")
-        break;
-};
+FileDeleter(path);
 
 FetchData(cmdSwitch, id, fromDate, toDate, path)

@@ -52,7 +52,7 @@ return onionPeeler(data);
 
 
 /** Parses data object from 'trafficVolumeByLength' query. Converts to csv and sends object to FileWriter() */
-const TrafficVolumeByLengthCsv = (data, jestCallback = () => {}) => {
+const TrafficVolumeByLengthCsv = (data, path, jestCallback = () => {}) => {
 
   let returnedRowData = getValues(data);
 
@@ -67,7 +67,6 @@ const TrafficVolumeByLengthCsv = (data, jestCallback = () => {}) => {
   jestCallback(returnedRowData[0])
 
   // if file exists (and thus header too), replace header object with empty array for new rows
-  const path = "trafficVolumeByLength.csv"
   if (fs.existsSync(path)){
     let csv = [[], ...returnedRowData ].join('\r\n');
     jestCallback(csv)
