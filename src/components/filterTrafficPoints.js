@@ -71,4 +71,4 @@ const filterTrafficPoints = (cmdSwitch, id, fromDate, toDate, path, data) => {
     // return filteredTrafficPoints
 };
 
-export default filterTrafficPoints;
+export {filterTrafficPoints, filterByMunicipality, filterByCounty}

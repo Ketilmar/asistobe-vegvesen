@@ -2,7 +2,7 @@ import { trafficRegPoints, trafficRegPointsQuery, queryCounty, queryMunicipality
 // because early node version in Docker dev environment, i must install node-fetch and import fetch. Just uncomment to use with later node version.
 import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
-import filterTrafficPoints from "./filterTrafficPoints.js";
+import {filterTrafficPoints} from "./filterTrafficPoints.js";
 // import {fromDateDefault, toDateDefault} from "./getDefaultDates.js"
 import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
 
@@ -72,6 +72,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
     try {
       const res= await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
       let data = await res.json()
+      console.log({data});
       
 
       // Send fetch return to the various parsers
