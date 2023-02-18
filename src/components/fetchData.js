@@ -6,11 +6,58 @@ import {filterTrafficPoints} from "./filterTrafficPoints.js";
 import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
 
 
+const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
+
+  const httpOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    mode: "cors",
+    body: JSON.stringify({
+      query: querySwitch,
+    }),
+  };
+
+  try {
+    const res= await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
+    let data = await res.json()
+    
+
+    // Send fetch return to the various parsers
+    switch (cmdSwitch){
+      case '-s':
+        SearchResultCsv(data, path);
+        break;
+        
+      case '-clist':
+        // console.log(JSON.stringify(data, null, 4))
+        console.log(data.data.areas.counties.map(county => county));
+        break;
+
+      case '-mlist':
+        console.log(data.data.areas.municipalities.map(municipality => municipality));
+        break;
+
+      case '-id':
+        TrafficVolumeByLengthCsv(data, path);
+        break;
+
+      default:
+        filterTrafficPoints(cmdSwitch, id, fromDate, toDate, data, path);
+        break; 
+    }
+
+  }
+  catch  (err){console.log(err);}
+
+};
+
 const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
+  
   let querySwitch = null;
 
   // selects graphQL options based on cmd input
   switch (cmdSwitch) {
+    
     // list county reg.points
     case '-c':
       // querySwitch = queryCounty;
@@ -51,53 +98,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
       return;
   }
 
-
-  const httpOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    mode: "cors",
-    body: JSON.stringify({
-      query: querySwitch,
-    }),
-  };
-
-  
-  const fetchApi = async () => {
-    try {
-      const res= await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
-      let data = await res.json()
-      
-
-      // Send fetch return to the various parsers
-      switch (cmdSwitch){
-        case '-s':
-          SearchResultCsv(data, path);
-          break;
-          
-        case '-clist':
-          // console.log(JSON.stringify(data, null, 4))
-          console.log(data.data.areas.counties.map(county => county));
-          break;
-
-        case '-mlist':
-          console.log(data.data.areas.municipalities.map(municipality => municipality));
-          break;
-
-        case '-id':
-          TrafficVolumeByLengthCsv(data, path);
-          break;
-
-        default:
-          filterTrafficPoints(cmdSwitch, id, fromDate, toDate, data, path);
-          break; 
-      }
-
-    }
-    catch  (err){console.log(err);}
-
-  };
-
-  fetchApi();
+  fetchApi(cmdSwitch, querySwitch, id, fromDate, toDate, path);
   
 };
 
