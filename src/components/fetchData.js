@@ -2,19 +2,15 @@ import { trafficRegPoints, trafficRegPointsQuery, queryCounty, queryMunicipality
 // because early node version in Docker dev environment, i must install node-fetch and import fetch. Just uncomment to use with later node version.
 import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
-import filterTrafficPoints from "./filterTrafficPoints.js";
-import {fromDateDefault, toDateDefault} from "./getDefaultDates.js"
+import {filterTrafficPoints} from "./filterTrafficPoints.js";
 import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
 
 
-const fromDate = process.argv[4] || fromDateDefault;
-const toDate = process.argv[5] || toDateDefault;
-
-const FetchData = (cmdInput) => {
+const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
   let querySwitch = null;
 
   // selects graphQL options based on cmd input
-  switch (cmdInput[2]) {
+  switch (cmdSwitch) {
     // list county reg.points
     case '-c':
       // querySwitch = queryCounty;
@@ -36,12 +32,12 @@ const FetchData = (cmdInput) => {
       
     // search reg.points by name or number
     case '-s':
-      querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${cmdInput[3]}"})` + trafficRegPointsQuery;
+      querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${id}"})` + trafficRegPointsQuery;
       break;
 
     // select specific reg.point
     case '-id':
-      querySwitch = trafficVolumeByLength(cmdInput[3], fromDate, toDate);
+      querySwitch = trafficVolumeByLength(id, fromDate, toDate);
       break;
 
     // list all reg.points
@@ -51,7 +47,7 @@ const FetchData = (cmdInput) => {
 
     // stops further execution of program
     default: 
-      console.log("Check your input. You typed:", cmdInput[2], cmdInput[3]);
+      console.log("Check your input. You typed:", cmdSwitch, id, fromDate, toDate, path);
       return;
   }
 
@@ -73,9 +69,9 @@ const FetchData = (cmdInput) => {
       
 
       // Send fetch return to the various parsers
-      switch (cmdInput[2]){
+      switch (cmdSwitch){
         case '-s':
-          SearchResultCsv(data);
+          SearchResultCsv(data, path);
           break;
           
         case '-clist':
@@ -88,11 +84,11 @@ const FetchData = (cmdInput) => {
           break;
 
         case '-id':
-          TrafficVolumeByLengthCsv(data);
+          TrafficVolumeByLengthCsv(data, path);
           break;
 
         default:
-          filterTrafficPoints(cmdInput[2], cmdInput[3], data);
+          filterTrafficPoints(cmdSwitch, id, fromDate, toDate, data, path);
           break; 
       }
 
@@ -105,4 +101,4 @@ const FetchData = (cmdInput) => {
   
 };
 
-export {FetchData, fromDate, toDate}
+export {FetchData}

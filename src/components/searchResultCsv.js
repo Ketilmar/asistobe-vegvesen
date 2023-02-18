@@ -1,7 +1,7 @@
 import { FileWriter } from "./fileWriter.js";
 
 /** Parses the result from '-s' option and converts it to a flat csv object */
-function SearchResultCsv(items) {
+function SearchResultCsv(items, path) {
   
     /** takes an object input and iterates thru it to get all the values */
     const getValues = (data, values= []) => {
@@ -27,8 +27,7 @@ function SearchResultCsv(items) {
     // join header and body, and break into separate lines
     const csv = [manualHeaders, ...rows].join('\r\n');
     
-    const path = "searchResult.csv"
-    FileWriter('searchResult.csv', csv, 'Search result successfull');
+    FileWriter(path, csv, 'Search result successfull');
 };
   
   export {SearchResultCsv}
