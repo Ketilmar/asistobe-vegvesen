@@ -37,7 +37,7 @@ const getAll = (trafficPoints) => {
 };
 
 /** Function with a switch to filter County or Municipality based on provided cmd input */
-const filterTrafficPoints = (cmdSwitch, id, fromDate, toDate, path, data) => {
+const filterTrafficPoints = (cmdSwitch, id, fromDate, toDate, data, path) => {
     let filteredTrafficPoints = null;
 
     switch (cmdSwitch) {

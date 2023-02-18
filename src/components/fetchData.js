@@ -3,7 +3,6 @@ import { trafficRegPoints, trafficRegPointsQuery, queryCounty, queryMunicipality
 import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
-// import {fromDateDefault, toDateDefault} from "./getDefaultDates.js"
 import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
 
 // const cmdSwitch = process.argv[2]
@@ -95,7 +94,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
           break;
 
         default:
-          filterTrafficPoints(cmdSwitch, id, fromDate, toDate, path, data);
+          filterTrafficPoints(cmdSwitch, id, fromDate, toDate, data, path);
           break; 
       }
 
