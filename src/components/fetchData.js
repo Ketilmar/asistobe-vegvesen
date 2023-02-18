@@ -6,6 +6,7 @@ import {filterTrafficPoints} from "./filterTrafficPoints.js";
 import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
 
 
+/** Fetches the data and sends it to the various parsers */
 const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
 
   const httpOptions = {
@@ -19,10 +20,8 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
 
   try {
     const res= await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
-    let data = await res.json()
+    const data = await res.json()
     
-
-    // Send fetch return to the various parsers
     switch (cmdSwitch){
       case '-s':
         SearchResultCsv(data, path);
@@ -51,24 +50,21 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
 
 };
 
+/** selects graphQL query based on cmd input and sends it to fetchApi */
 const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
   
   let querySwitch = null;
 
-  // selects graphQL options based on cmd input
   switch (cmdSwitch) {
     
-    // list county reg.points
     case '-c':
-      // querySwitch = queryCounty;
       querySwitch = trafficRegPoints;
       break;
 
-      case '-clist':
+    case '-clist':
       querySwitch = queryCounty;
       break;
 
-    // list municipality reg.points
     case '-m':
       querySwitch = trafficRegPoints;
       break;
@@ -77,22 +73,18 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
       querySwitch = queryMunicipality;
       break;
       
-    // search reg.points by name or number
     case '-s':
       querySwitch = `{trafficRegistrationPoints(searchQuery: {query: "${id}"})` + trafficRegPointsQuery;
       break;
 
-    // select specific reg.point
     case '-id':
       querySwitch = trafficVolumeByLength(id, fromDate, toDate);
       break;
 
-    // list all reg.points
     case '-all':
       querySwitch = trafficRegPoints;
       break;
 
-    // stops further execution of program
     default: 
       console.log("Check your input. You typed:", cmdSwitch, id, fromDate, toDate, path);
       return;
