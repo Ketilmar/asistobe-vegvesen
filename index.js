@@ -52,8 +52,8 @@
 
     // if date to/from is selected
     if(process.argv[4] && process.argv[5]){
-        fromDate = process.argv[4] || fromDateDefault;
-        toDate = process.argv[5] || toDateDefault;
+        fromDate = process.argv[4]
+        toDate = process.argv[5]
 
         // if path not selected
         if(process.argv[5] === process.argv[process.argv.length -1]){
@@ -65,11 +65,6 @@
             path = process.argv[process.argv.length -1];
         }
     }
-
-    // 
-    // if(process.argv[5] !== process.argv[process.argv.length -1]){
-    //     path = process.argv[process.argv.length -1]
-    // }
     
     FileDeleter(path);
     
