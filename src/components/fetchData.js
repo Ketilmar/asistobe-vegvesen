@@ -5,6 +5,15 @@ import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
 import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
 
+const inputCheck = (fromDate, toDate) => {
+  const regEx = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
+  if (regEx.test(fromDate) && regEx.test(toDate)) {
+    console.log("Passed")
+    return "Pass"
+  } else {
+    console.log("Passed in wrong date format")
+  }
+}
 
 /** Fetches the data and sends it to the various parsers */
 const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
@@ -94,4 +103,4 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
   
 };
 
-export {FetchData, fetchApi}
+export {FetchData, fetchApi, inputCheck}
