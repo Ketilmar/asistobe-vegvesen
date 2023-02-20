@@ -94,4 +94,4 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
   
 };
 
-export {FetchData}
+export {FetchData, fetchApi}
