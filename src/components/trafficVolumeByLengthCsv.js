@@ -74,7 +74,7 @@ const TrafficVolumeByLengthCsv = (data, path, jestCallback = () => {}) => {
   }
   else {
     // Headers must be defined manually
-    let manualHeaders = ['id','name','trafficRegistrationType','county','municipality', 'lat','lon','From', 'To', 'total-volume','Total-coverage', 'LengthRange:..-5.6', 'LengthRange:5.6-..','LengthRange:5.6-7.6','LengthRange:7.6-12.5','LengthRange:12.5-16','LengthRange:16-24','LengthRange:24-..']
+    let manualHeaders = ['id','name','trafficRegistrationType','direction-from','direction-to','county','municipality', 'lat','lon','From', 'To', 'total-volume','Total-coverage', 'LengthRange:..-5.6', 'LengthRange:5.6-..','LengthRange:5.6-7.6','LengthRange:7.6-12.5','LengthRange:12.5-16','LengthRange:16-24','LengthRange:24-..']
     // join header and body, and break into separate rows
     let csv = [manualHeaders, ...returnedRowData].join('\r\n');
     jestCallback(csv)
