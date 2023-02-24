@@ -91,6 +91,32 @@ describe('getValues', () => {
     });
 
 
+    // whats important so see here is that the value in 'percentage' takes the first index of the array, which is not it's place.
+    // Maybe fix the function to handle this
+    it('should handle objects with null total-volumenumbers', () => {
+        json = `{"data": [
+                    {"node": {
+                        "total": {
+                            "volumeNumbers": null,
+                            "coverage": {
+                                "percentage": 0
+                            }
+                        }
+                    },
+                
+                    "byLengthRange": []
+                    }]
+                }`
+
+        let nodeData = JSON.parse(json);
+        
+        actual = getValues(nodeData)
+        expectedOutput = [[],["0"]];
+  
+        expect(actual).toEqual(expectedOutput);
+    });
+
+
     it('Should handle empty edge data', () => {
         json = `{"data":
                     {

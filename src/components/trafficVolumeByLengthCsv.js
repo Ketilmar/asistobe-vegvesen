@@ -17,7 +17,7 @@ const getValues = (data) => {
     }
 
     // Handles empty data
-    if (data === null) return;
+    if (data === null) return
 
     // Handles objects with no 'edge' data
     if (Object.keys(data).includes('edges')){
