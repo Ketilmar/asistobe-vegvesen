@@ -171,6 +171,10 @@ const trafficRegPoints = `
         id
         name
         trafficRegistrationType
+        direction {
+          fromAccordingToRoadLink
+          toAccordingToRoadLink
+        }
         location {
           county {
             name
@@ -192,6 +196,21 @@ const trafficRegPoints = `
             node {
               from
               to
+              byDirection {
+                heading
+                total {
+                  volumeNumbers {
+                    volume
+                  }
+                }
+                byLengthRange {
+                  total {
+                    volumeNumbers {
+                      volume
+                    }
+                  }
+                }
+              }
               total {
                 volumeNumbers {
                   volume
@@ -215,7 +234,5 @@ const trafficRegPoints = `
   }`
 }
 
-  
-  
 
   export {trafficRegPoints, trafficRegPointsQuery, trafficData, trafficVolumeByLength, trafficVolume,  queryCounty, queryMunicipality}
