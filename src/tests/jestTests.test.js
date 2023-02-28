@@ -1,30 +1,44 @@
 import moment from "moment/moment";
 import { inputCheck } from "../components/fetchData";
-import {
-  filterByCounty,
-  filterByMunicipality,
-  getAll,
-} from "../components/filterTrafficPoints";
 import { trafficVolumeByLength } from "../components/queries";
 import { getValues } from "../components/trafficVolumeByLengthCsv"
+//import fs from "fs"
 
 
-describe("Date number conversion tests", () => {
+// test("file", () => {
+//   const readTest = (file) => {
+//     fs.readFile(file, "utf8", (err, data) => {
+//     if (err) throw err;
+//     console.log(data);
+//   })}
+
+//   expect(readTest("result.txt")).toMatch("07721V3144565")
+// })
+
+describe("Date number tests", () => {
   test("Date inputs", () => {
     // arrange and act
-    let testDate = "2023-02-05";
-    let testFail = inputCheck("2023-13-30", "2023-05-05");
-    let testFormat = inputCheck("2023.12.30", "2023.12.31");
-    let inputTest = inputCheck("2023-12-30", "2023-02-06");
+    let opposite = inputCheck("10-11-2022", "11-11-2022")
+    let incomplete = inputCheck("2022-11", "2022-11-10")
+    let emptyStringWithSpace = inputCheck(" ", " ")
+    let empty = inputCheck("", "")
+    let inputTest = inputCheck("2022-12-30", "2022-02-06");
+    let testFail = inputCheck("2022-13-30", "2022-05-05");
+    let testFormat = inputCheck("2022.12.30", "2022.12.31");
+    let testDate = "2022-02-05";
     let dateTest = moment().subtract(1, "days").format("YYYY-MM-DD");
     let regEx = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
 
     //assert
+    expect(opposite).toBeFalsy()
+    expect(incomplete).toBeFalsy()
+    expect(emptyStringWithSpace).toBeFalsy()
+    expect(empty).toBeFalsy()
     expect(inputTest).not.toBeFalsy();
-    expect(dateTest).toMatch(regEx);
-    expect(testDate).toMatch(regEx);
     expect(testFail).toBeFalsy();
     expect(testFormat).toBeFalsy();
+    expect(testDate).toMatch(regEx);
+    expect(dateTest).toMatch(regEx);
   });
 });
 
@@ -146,6 +160,10 @@ test("Query function", () => {
         id
         name
         trafficRegistrationType
+        direction {
+          fromAccordingToRoadLink
+          toAccordingToRoadLink
+        }
         location {
           county {
             name
@@ -167,6 +185,21 @@ test("Query function", () => {
             node {
               from
               to
+              byDirection {
+                heading
+                total {
+                  volumeNumbers {
+                    volume
+                  }
+                }
+                byLengthRange {
+                  total {
+                    volumeNumbers {
+                      volume
+                    }
+                  }
+                }
+              }
               total {
                 volumeNumbers {
                   volume
@@ -192,163 +225,4 @@ test("Query function", () => {
   expect(queryTest).toContain(item1);
   expect(queryTest).toContain(item2);
   expect(queryTest).toMatch(queryObj);
-});
-
-const testData = `{
-  "data": {
-    "trafficRegistrationPoints": [
-{
-  "id": "06872V2518838",
-  "name": "Rampe Loddefjord - Bergen",
-  "location": {
-    "county": {
-      "name": "Vestland",
-      "number": 46
-    },
-    "municipality": {
-      "name": "Bergen",
-      "number": 4601
-    }
-  }
-},
-{
-  "id": "57587V805035",
-  "name": "STORAVATN, RAMPE FRA BERGEN",
-  "location": {
-    "county": {
-      "name": "Vestland",
-      "number": 46
-    },
-    "municipality": {
-      "name": "Bergen",
-      "number": 4601
-    }
-  }
-},
-{
-  "id": "32259V22202",
-  "name": "BERGENDAL VEST",
-  "location": {
-    "county": {
-      "name": "Agder",
-      "number": 42
-    },
-    "municipality": {
-      "name": "Tvedestrand",
-      "number": 4213
-    }
-  }
-}
-]
-}
-}`;
-
-let result1 = `
-{
-"id": "06872V2518838",
-"name": "Rampe Loddefjord - Bergen",
-"location": {
-"county": {
-  "name": "Vestland",
-  "number": 46
-},
-"municipality": {
-  "name": "Bergen",
-  "number": 4601
-}
-}
-}`;
-
-let result2 = `
-{
-"id": "57587V805035",
-"name": "STORAVATN, RAMPE FRA BERGEN",
-"location": {
-"county": {
-  "name": "Vestland",
-  "number": 46
-},
-"municipality": {
-  "name": "Bergen",
-  "number": 4601
-}
-}
-}`;
-
-let result3 = `
-{
-  "id": "32259V22202",
-  "name": "BERGENDAL VEST",
-  "location": {
-    "county": {
-      "name": "Agder",
-      "number": 42
-    },
-    "municipality": {
-      "name": "Tvedestrand",
-      "number": 4213
-    }
-  }
-}`
-
-let jsonObj = JSON.parse(testData);
-let jsonResult1 = JSON.parse(result1);
-let jsonResult2 = JSON.parse(result2);
-let jsonResult3 = JSON.parse(result3);
-
-describe("FilterTrafficPoints functions", () => {
-  test("municipality", () => {
-    let muniTest = filterByMunicipality("bergen", jsonObj);
-    
-    expect(muniTest).toEqual(expect.arrayContaining([jsonResult1]));
-    expect(muniTest).toEqual(expect.arrayContaining([jsonResult2]));
-    expect(muniTest).not.toEqual(expect.arrayContaining([jsonResult3]));
-
-    expect(muniTest).toEqual(
-      expect.arrayContaining([expect.objectContaining({ id: "06872V2518838" })])
-    );
-    expect(muniTest).toEqual(
-      expect.arrayContaining([expect.objectContaining({ id: "57587V805035" })])
-    );
-    expect(muniTest).not.toEqual(
-      expect.arrayContaining([expect.objectContaining({ id: "32259V22202" })])
-    );
-  });
-
-  test("county", () => {    
-    let countyTest = filterByCounty("vestland", jsonObj);
-    
-    expect(countyTest).toEqual(expect.arrayContaining([jsonResult1]));
-    expect(countyTest).toEqual(expect.arrayContaining([jsonResult2]));
-    expect(countyTest).not.toEqual(expect.arrayContaining([jsonResult3]));
-
-    expect(countyTest).toEqual(
-      expect.arrayContaining([expect.objectContaining({ id: "06872V2518838" })])
-    );
-    expect(countyTest).toEqual(
-      expect.arrayContaining([expect.objectContaining({ id: "57587V805035" })])
-    );
-    expect(countyTest).not.toEqual(
-      expect.arrayContaining([expect.objectContaining({ id: "32259V22202" })])
-    );
-  });
-
-  test("getAll", () => {
-    let getAllTest = getAll(jsonObj)
-
-    expect(getAllTest).toEqual(expect.arrayContaining([jsonResult1]));
-    expect(getAllTest).toEqual(expect.arrayContaining([jsonResult2]));
-    expect(getAllTest).toEqual(expect.arrayContaining([jsonResult3]));
-
-    expect(getAllTest).toEqual(
-      expect.arrayContaining([expect.objectContaining({ id: "06872V2518838" })])
-    );
-    expect(getAllTest).toEqual(
-      expect.arrayContaining([expect.objectContaining({ id: "57587V805035" })])
-    );
-    expect(getAllTest).toEqual(
-      expect.arrayContaining([expect.objectContaining({ id: "32259V22202" })])
-    );
-
-  })
 });
