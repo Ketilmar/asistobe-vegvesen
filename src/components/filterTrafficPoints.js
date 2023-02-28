@@ -65,7 +65,7 @@ const filterTrafficPoints = (cmdSwitch, id, fromDate, toDate, data, path) => {
         setTimeout(() => {
           FetchData('-id', id.id, fromDate, toDate, path);
     
-        }, 300 * index);
+        }, 20 * index);
       });
 
     // return filteredTrafficPoints
