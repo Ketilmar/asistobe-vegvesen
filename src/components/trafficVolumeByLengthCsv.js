@@ -29,8 +29,13 @@ const getValues = (data) => {
     
     // updates rowData array with 'idInfo' the first loop,
     // then node data (time range) each loop after
-    if (Object.keys(data).includes('byLengthRange')){
-        rowData.push(tmpRowData.splice(0, tmpRowData.length));
+    // if (Object.keys(data).includes('byLengthRange')){
+    //     rowData.push(tmpRowData.splice(0, tmpRowData.length));
+    // };
+    if (Object.keys(data).includes('byDirection')){
+      if (Object.keys(data.byDirection[0]).includes('byLengthRange')){
+      rowData.push(tmpRowData.splice(0, tmpRowData.length));
+      }
     };
 
     // each loop it takes the data object and flattens it to a new array. Sends the new array thru getValues() again. 
@@ -43,7 +48,7 @@ const getValues = (data) => {
         rowData.push(tmpRowData.splice(0, tmpRowData.length))
       }
     };
-    
+
     return rowData;
   };
 
@@ -55,7 +60,7 @@ return onionPeeler(data);
 const TrafficVolumeByLengthCsv = (data, path) => {
 
   let returnedRowData = getValues(data);
-
+  
   // extract data for adding to each row later (id, name, county, municipality, lat, lon)
   let idInfo = returnedRowData.shift();
 
@@ -71,7 +76,7 @@ const TrafficVolumeByLengthCsv = (data, path) => {
   }
   else {
     // Headers must be defined manually
-    let manualHeaders = ['id','name','trafficRegistrationType','county','municipality', 'lat','lon','From', 'To', 'total-volume','Total-coverage', 'LengthRange:..-5.6', 'LengthRange:5.6-..','LengthRange:5.6-7.6','LengthRange:7.6-12.5','LengthRange:12.5-16','LengthRange:16-24','LengthRange:24-..']
+    let manualHeaders = ['id','name','trafficRegistrationType','direction-from','direction-to','county','municipality', 'lat','lon','From', 'To','heading1', 'heading1-volume', 'heading1-LengthRange:..-5.6', 'heading1-LengthRange:5.6-..','heading1-LengthRange:5.6-7.6','heading1-LengthRange:7.6-12.5','heading1-LengthRange:12.5-16','heading1-LengthRange:16-24','heading1-LengthRange:24-..','heading2', 'heading2-volume', 'heading2-LengthRange:..-5.6', 'heading2-LengthRange:5.6-..','heading2-LengthRange:5.6-7.6','heading2-LengthRange:7.6-12.5','heading2-LengthRange:12.5-16','heading2-LengthRange:16-24','heading2-LengthRange:24-..', 'total-volume','Total-coverage','Total-LengthRange:..-5.6', 'Total-LengthRange:5.6-..','Total-LengthRange:5.6-7.6','Total-LengthRange:7.6-12.5','Total-LengthRange:12.5-16','Total-LengthRange:16-24','Total-LengthRange:24-..']
     // join header and body, and break into separate rows
     let csv = [manualHeaders, ...returnedRowData].join('\r\n');
     FileWriter(path, csv, `ID ${idInfo[0]} - Write row with header -->`);
