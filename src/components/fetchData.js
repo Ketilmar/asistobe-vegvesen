@@ -9,9 +9,10 @@ const inputCheck = (fromDate, toDate) => {
   const regEx = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
   if (regEx.test(fromDate) && regEx.test(toDate)) {
     console.log("Passed")
-    return "Pass"
+    return true
   } else {
     console.log("Passed in wrong date format")
+    return false
   }
 }
 
