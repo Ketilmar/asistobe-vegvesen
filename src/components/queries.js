@@ -171,10 +171,6 @@ const trafficRegPoints = `
         id
         name
         trafficRegistrationType
-        direction {
-          fromAccordingToRoadLink
-          toAccordingToRoadLink
-        }
         location {
           county {
             name
@@ -191,7 +187,7 @@ const trafficRegPoints = `
         }
       }
       volume {
-        byHour(from: "${dateFrom}T00:00:00+01:00", to: "${dateTo}T00:00:00+01:00") {
+        byHour(from: "${dateFrom}T00:00:00+01:00", to: "${dateTo}T02:00:00+01:00") {
           edges {
             node {
               from
@@ -204,13 +200,22 @@ const trafficRegPoints = `
                   percentage
                 }
               }
-              byLengthRange {
+              byDirection {
+                heading
                 total {
                   volumeNumbers {
                     volume
                   }
                 }
+                byLengthRange {
+                  total {
+                    volumeNumbers {
+                      volume
+                    }
+                  }
+                }
               }
+              
             }
           }
         }
