@@ -44,14 +44,18 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
         filterTrafficPoints(cmdSwitch, id, fromDate, toDate, data, path);
         break; 
     }
+    return data;
 
   }
-  catch  (err){console.log(err);}
+  // catch  (err){console.log(err);}
+    catch (err){return null}
+
+  // return data.trafficRegPoints;
 
 };
 
 /** selects graphQL query based on cmd input and sends it to fetchApi */
-const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
+const FetchData = (cmdSwitch, id, fromDate, toDate, path, jestCallback = () => {}) => {
   
   let querySwitch = null;
 
@@ -59,6 +63,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
     
     case '-c':
       querySwitch = trafficRegPoints;
+      jestCallback(querySwitch);
       break;
 
     case '-clist':
@@ -94,4 +99,16 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
   
 };
 
-export {FetchData, fetchApi}
+
+import { execSync } from "node:child_process";
+
+const jestTest = (cmd) => {
+  // export default (cmd) => {
+  const result = execSync(cmd);
+  // const result = console.log('dette er fetch');
+  // const result = 'TEST RESULT';
+  console.log("in index, execSync returns", result);
+  return result;
+};
+
+export {FetchData, fetchApi, jestTest}
