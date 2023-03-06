@@ -16,23 +16,54 @@ describe('getValues', () => {
   
     it('should handle a complete object', () => {
         let id = ["74808V805815", "Bønesskogen nord", "VEHICLE", "Vestland", "Bergen", "60.331065", "5.29924"]
-        let node= ["2023-02-02T00:00:00+01:00", "2023-02-02T01:00:00+01:00", "7", "100", "6", "1", "0", "0", "1", "0","0"]
+        // let node= ["2023-02-02T00:00:00+01:00", "2023-02-02T01:00:00+01:00", "11", "100", "6", "1", "0", "0", "1", "0","0"]
+        let direction1 = [
+            "2023-02-02T00:00:00+01:00,2023-02-02T01:00:00+01:00,11,100",
+            "Bønes",
+            "4",
+            "1",
+            "3",
+            "1",
+            "0",
+            "1",
+            "1",
+            "0",
+          ]
+        let direction2 = [
+            "2023-02-02T00:00:00+01:00,2023-02-02T01:00:00+01:00,11,100",
+            "Bråtet",
+            "7",
+            "6",
+            "1",
+            "0",
+            "0",
+            "1",
+            "0",
+            "0",
+          ]
         
         actual = getValues(jsonObj)
-        expectedOutput = [id,node];
+        expectedOutput = [id,direction1, direction2];
   
       expect(actual).toEqual(expectedOutput);
     });
 
 
     it('should handle id items', () => {
-        json = `{"data": [
-                    {"trafficRegistrationPoint": {
-                        "id": "74808V805815",
-                        "name": "Bønesskogen nord"
-                    }}
-                    ]
-                }`
+        json = `{"data": {
+            "trafficRegistrationPoint": {
+                "id": "74808V805815",
+                "name": "Bønesskogen nord"
+                }
+            }
+        }`
+        // `{"data": [
+        //             {"trafficRegistrationPoint": {
+        //                 "id": "74808V805815",
+        //                 "name": "Bønesskogen nord"
+        //             }}
+        //             ]
+        //         }`
 
         let byLengthRangeData = JSON.parse(json);
         
@@ -68,6 +99,8 @@ describe('getValues', () => {
     it('should handle objects with empty byLengthRange', () => {
         json = `{"data": [
                     {"node": {
+                        "from": "2023-02-02T00:00:00+01:00",
+                        "to": "2023-02-02T01:00:00+01:00",
                         "total": {
                             "volumeNumbers": {
                                 "volume": 7

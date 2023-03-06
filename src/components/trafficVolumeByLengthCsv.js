@@ -17,8 +17,10 @@ const getValues = (data) => {
       return;
     }
 
-    // Handles empty data
-    if (data === null) return
+    if (data === null){
+      tmpRowData.push('null');
+      return;
+    } 
 
     // Handles objects with no 'edge' data
     if (Object.keys(data).includes('edges')){
@@ -28,6 +30,7 @@ const getValues = (data) => {
       };
     };
 
+    // This where id row is pushed, thats common for all rows
     if (Object.keys(data).includes('edges')){
       rowData.push(tmpRowData.splice(0, tmpRowData.length));
     };
@@ -53,10 +56,10 @@ const getValues = (data) => {
 
       };
     };
-
-      if (Object.keys(data).includes('heading')){
-        rowData2.push(tmpRowData.splice(0, tmpRowData.length));
-      };
+    // this where timeslot and total for that is pushed
+    if (Object.keys(data).includes('heading')){
+      rowData2.push(tmpRowData.splice(0, tmpRowData.length));
+    };
       
     // each loop it takes the data object and flattens it to a new array. Sends the new array thru getValues() again. 
     Object.values(data).flatMap(v => onionPeeler(v));
