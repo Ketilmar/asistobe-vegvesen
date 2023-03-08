@@ -38,15 +38,13 @@ let resultVar;
        let timeRange = rowData2.shift();
 
         for (let item of rowData2){
+            if (item.length !== 0){
             item.unshift(timeRange.toString());
             rowData.push(item.splice(0, item.length));
+            }
         };
 
-        for (let item in rowData2){
-          rowData2.splice(0,item.length);
-        };
-
-        rowData2.splice(0,1);
+        rowData2.splice(0, rowData2.length);
 
       };
     };
@@ -68,14 +66,13 @@ let resultVar;
       let timeRange = rowData2.shift()
 
         for (let item of rowData2){
+            if (item.length !== 0){
             item.unshift(timeRange.toString());
             rowData.push(item.splice(0, item.length));
+            }
         };
 
-        for (let item in rowData2){
-          rowData2.splice(0,item.length);
-        };
-
+        rowData2.splice(0, rowData2.length);
         resultVar = rowData.splice(0, rowData.length)
     };
     
