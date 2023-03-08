@@ -37,10 +37,8 @@ const rowData2 = new Array();
        let timeRange = rowData2.shift();
 
         for (let item of rowData2){
-          // if (item){
             item.unshift(timeRange.toString());
             rowData.push(item.splice(0, item.length));
-          // };
         };
 
         for (let item in rowData2){
@@ -69,10 +67,8 @@ const rowData2 = new Array();
       let timeRange = rowData2.shift()
 
         for (let item of rowData2){
-          // if (item){
             item.unshift(timeRange.toString());
             rowData.push(item.splice(0, item.length));
-          // };
         };
 
         for (let item in rowData2){
