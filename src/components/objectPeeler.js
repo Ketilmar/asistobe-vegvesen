@@ -1,6 +1,7 @@
 const tmpRowData = new Array();
 const rowData = new Array();
 const rowData2 = new Array();
+let resultVar;
 
   /** Iterates thru the input object and extract all values. Pushes values to rowData as array. Values stored as string */
   const objectPeeler = (data) => {
@@ -74,9 +75,11 @@ const rowData2 = new Array();
         for (let item in rowData2){
           rowData2.splice(0,item.length);
         };
+
+        resultVar = rowData.splice(0, rowData.length)
     };
     
-    return rowData;
+    return resultVar;
   };
 
   export {objectPeeler}
