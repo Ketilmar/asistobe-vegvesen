@@ -47,8 +47,8 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
     return data;
 
   }
-  // catch  (err){console.log(err);}
-    catch (err){return null}
+  catch  (err){console.log(err);}
+    // catch (err){return null}
 
   // return data.trafficRegPoints;
 

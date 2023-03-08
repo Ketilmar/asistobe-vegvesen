@@ -3,6 +3,7 @@ import { TrafficVolumeByLengthCsv, getValues } from "../components/trafficVolume
 import { FileWriter, FileDeleter } from "../components/fileWriter";
 import {expect, jest} from '@jest/globals'
 import { exampleTrafficVolumeByLength } from "./exampleJsonData";
+import { objectPeeler } from "../components/objectPeeler";
 
 
 
@@ -42,7 +43,7 @@ describe('getValues', () => {
             "0",
           ]
         
-        actual = getValues(jsonObj)
+        actual = objectPeeler(jsonObj)
         expectedOutput = [id,direction1, direction2];
   
       expect(actual).toEqual(expectedOutput);
