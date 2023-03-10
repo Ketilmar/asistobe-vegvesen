@@ -196,21 +196,6 @@ const trafficRegPoints = `
             node {
               from
               to
-              byDirection {
-                heading
-                total {
-                  volumeNumbers {
-                    volume
-                  }
-                }
-                byLengthRange {
-                  total {
-                    volumeNumbers {
-                      volume
-                    }
-                  }
-                }
-              }
               total {
                 volumeNumbers {
                   volume
