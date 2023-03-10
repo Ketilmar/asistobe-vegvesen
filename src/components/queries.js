@@ -219,10 +219,18 @@ const trafficRegPoints = `
                   percentage
                 }
               }
-              byLengthRange {
+              byDirection {
+                heading
                 total {
                   volumeNumbers {
                     volume
+                  }
+                }
+                byLengthRange {
+                  total {
+                    volumeNumbers {
+                      volume
+                    }
                   }
                 }
               }
