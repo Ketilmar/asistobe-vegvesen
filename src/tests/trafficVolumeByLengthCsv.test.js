@@ -1,8 +1,9 @@
-import { TrafficVolumeByLengthCsv, getValues } from "../components/trafficVolumeByLengthCsv";
+import { TrafficVolumeByLengthCsv } from "../components/trafficVolumeByLengthCsv";
 // const TrafficVolumeByLengthCsv = require('../components/trafficVolumeByLengthCsv')
 import { FileWriter, FileDeleter } from "../components/fileWriter";
 import {expect, jest} from '@jest/globals'
 import { exampleTrafficVolumeByLength } from "./exampleJsonData";
+import { objectPeeler } from "../components/objectPeeler";
 
 
 
@@ -16,10 +17,33 @@ describe('getValues', () => {
   
     it('should handle a complete object', () => {
         let id = ["74808V805815", "Bønesskogen nord", "VEHICLE", "Vestland", "Bergen", "60.331065", "5.29924"]
-        let node= ["2023-02-02T00:00:00+01:00", "2023-02-02T01:00:00+01:00", "7", "100", "6", "1", "0", "0", "1", "0","0"]
+        let node1 = [
+            "2023-02-02T00:00:00+01:00,2023-02-02T01:00:00+01:00,11,100",
+            "Bønes",
+            "4",
+            "1",
+            "3",
+            "1",
+            "0",
+            "1",
+            "1",
+            "0",
+          ];
+          let node2 = [
+            "2023-02-02T00:00:00+01:00,2023-02-02T01:00:00+01:00,11,100",
+            "Bråtet",
+            "7",
+            "6",
+            "1",
+            "0",
+            "0",
+            "1",
+            "0",
+            "0",
+          ]
         
-        actual = getValues(jsonObj)
-        expectedOutput = [id,node];
+        actual = objectPeeler(jsonObj)
+        expectedOutput = [id,node1, node2];
   
       expect(actual).toEqual(expectedOutput);
     });
@@ -36,7 +60,7 @@ describe('getValues', () => {
 
         let byLengthRangeData = JSON.parse(json);
         
-        actual = getValues(byLengthRangeData)
+        actual = objectPeeler(byLengthRangeData)
         expectedOutput = [["74808V805815", "Bønesskogen nord"]];
   
         expect(actual).toEqual(expectedOutput);
@@ -58,7 +82,7 @@ describe('getValues', () => {
 
         let byLengthRangeData = JSON.parse(json);
         
-        actual = getValues(byLengthRangeData)
+        actual = objectPeeler(byLengthRangeData)
         expectedOutput = [[],["6"]];
   
         expect(actual).toEqual(expectedOutput);
@@ -84,7 +108,7 @@ describe('getValues', () => {
 
         let nodeData = JSON.parse(json);
         
-        actual = getValues(nodeData)
+        actual = objectPeeler(nodeData)
         expectedOutput = [[],["7", "100"]];
   
         expect(actual).toEqual(expectedOutput);
@@ -110,7 +134,7 @@ describe('getValues', () => {
 
         let nodeData = JSON.parse(json);
         
-        actual = getValues(nodeData)
+        actual = objectPeeler(nodeData)
         expectedOutput = [[],["0"]];
   
         expect(actual).toEqual(expectedOutput);
@@ -126,7 +150,7 @@ describe('getValues', () => {
 
         let noEdgeData = JSON.parse(json);
         
-        actual = getValues(noEdgeData)
+        actual = objectPeeler(noEdgeData)
         expectedOutput = [[],['No data']];
 
         expect(actual).toEqual(expectedOutput);

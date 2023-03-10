@@ -1,4 +1,5 @@
-const exampleTrafficVolumeByLength = `{
+const exampleTrafficVolumeByLength = `
+{
     "data": {
         "trafficData": {
             "trafficRegistrationPoint": {
@@ -24,77 +25,145 @@ const exampleTrafficVolumeByLength = `{
                 "byHour": {
                     "edges": [
                         {
-                          "node": {
-                            "from": "2023-02-02T00:00:00+01:00",
-                            "to": "2023-02-02T01:00:00+01:00",
-                            "total": {
-                                "volumeNumbers": {
-                                    "volume": 7
-                                },
-                                "coverage": {
-                                    "percentage": 100
-                                }
-                            },
-                            "byLengthRange": [
-                                {
-                                    "total": {
-                                        "volumeNumbers": {
-                                            "volume": 6
-                                        }
+                            "node": {
+                                "from": "2023-02-02T00:00:00+01:00",
+                                "to": "2023-02-02T01:00:00+01:00",
+                                "total": {
+                                    "volumeNumbers": {
+                                        "volume": 11
+                                    },
+                                    "coverage": {
+                                        "percentage": 100       
                                     }
                                 },
-                                {
-                                    "total": {
-                                        "volumeNumbers": {
-                                            "volume": 1
-                                        }
+                                "byDirection": [
+                                    {
+                                        "heading": "Bønes",     
+                                        "total": {
+                                            "volumeNumbers": {  
+                                                "volume": 4     
+                                            }
+                                        },
+                                        "byLengthRange": [      
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 1
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 3
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 1
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 0
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 1
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 1
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 0
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "heading": "Bråtet",    
+                                        "total": {
+                                            "volumeNumbers": {  
+                                                "volume": 7     
+                                            }
+                                        },
+                                        "byLengthRange": [      
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 6
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 1
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 0
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 0
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 1
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 0
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "total": {      
+                                                    "volumeNumbers": {
+                                                        "volume": 0
+                                                    }
+                                                }
+                                            }
+                                        ]
                                     }
-                                },  
-                                {
-                                    "total": {
-                                        "volumeNumbers": {
-                                            "volume": 0
-                                        }
-                                    }
-                                },
-                                {
-                                    "total": {
-                                        "volumeNumbers": {
-                                            "volume": 0
-                                        }
-                                    }
-                                },
-                                {
-                                    "total": {
-                                        "volumeNumbers": {
-                                            "volume": 1
-                                        }
-                                    }
-                                },
-                                {
-                                    "total": {
-                                        "volumeNumbers": {
-                                            "volume": 0
-                                        }
-                                    }
-                                },
-                                {
-                                    "total": {
-                                        "volumeNumbers": {
-                                            "volume": 0
-                                        }
-                                    }
-                                }
-                            ]
+                                ]
+                            }
                         }
-                    }
-                        
                     ]
                 }
             }
         }
     }
-  }`
+}`
 
 
   const exampleTrafficRegPoints = `{
