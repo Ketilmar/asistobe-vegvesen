@@ -171,10 +171,6 @@ const trafficRegPoints = `
         id
         name
         trafficRegistrationType
-        direction {
-          fromAccordingToRoadLink
-          toAccordingToRoadLink
-        }
         location {
           county {
             name
