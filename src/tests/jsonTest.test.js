@@ -1,4 +1,4 @@
-import { getValues } from "../components/trafficVolumeByLengthCsv";
+import { objectPeeler } from "../components/objectPeeler";
 
 const jsonData = `{
     "data": {
@@ -7,10 +7,6 @@ const jsonData = `{
                 "id": "74808V805815",
                 "name": "Bønesskogen nord",
                 "trafficRegistrationType": "VEHICLE",
-                "direction": {
-                    "fromAccordingToRoadLink": "Bråtet", 
-                    "toAccordingToRoadLink": "Bønes"
-                },
                 "location": {
                     "county": {
                         "name": "Vestland"
@@ -33,6 +29,14 @@ const jsonData = `{
                       "node": {
                         "from": "2023-02-25T00:00:00+01:00",
                         "to": "2023-02-25T01:00:00+01:00",
+                        "total": {
+                          "volumeNumbers": {
+                            "volume": 37
+                          },
+                          "coverage": {
+                            "percentage": 100
+                          }
+                        },
                         "byDirection": [
                           {
                             "heading": "Bønes",
@@ -152,65 +156,6 @@ const jsonData = `{
                               }
                             ]
                           }
-                        ],
-                        "total": {
-                          "volumeNumbers": {
-                            "volume": 37
-                          },
-                          "coverage": {
-                            "percentage": 100
-                          }
-                        },
-                        "byLengthRange": [
-                          {
-                            "total": {
-                              "volumeNumbers": {
-                                "volume": 32
-                              }
-                            }
-                          },
-                          {
-                            "total": {
-                              "volumeNumbers": {
-                                "volume": 5
-                              }
-                            }
-                          },
-                          {
-                            "total": {
-                              "volumeNumbers": {
-                                "volume": 1
-                              }
-                            }
-                          },
-                          {
-                            "total": {
-                              "volumeNumbers": {
-                                "volume": 0
-                              }
-                            }
-                          },
-                          {
-                            "total": {
-                              "volumeNumbers": {
-                                "volume": 1
-                              }
-                            }
-                          },
-                          {
-                            "total": {
-                              "volumeNumbers": {
-                                "volume": 3
-                              }
-                            }
-                          },
-                          {
-                            "total": {
-                              "volumeNumbers": {
-                                "volume": 0
-                              }
-                            }
-                          }
                         ]
                       }
                     }
@@ -224,13 +169,11 @@ const jsonData = `{
 let jsonObj = JSON.parse(jsonData);
 
 describe("CSV test", () => {
-  test("testing av getValues", () => {
+  test("testing av objectPeeler", () => {
     let item1 = [
       "74808V805815",
       "Bønesskogen nord",
       "VEHICLE",
-      "Bråtet",
-      "Bønes",
       "Vestland",
       "Bergen",
       "60.331065",
@@ -239,6 +182,8 @@ describe("CSV test", () => {
     let item2 = [
       "2023-02-25T00:00:00+01:00",
       "2023-02-25T01:00:00+01:00",
+      "37",
+      "100",
       "Bønes",
       "21",
       "19",
@@ -247,7 +192,12 @@ describe("CSV test", () => {
       "0",
       "0",
       "2",
-      "0",
+      "0"]
+    let item3 = [
+      "2023-02-25T00:00:00+01:00",
+      "2023-02-25T01:00:00+01:00",
+      "37",
+      "100",
       "Bråtet",
       "16",
       "13",
@@ -256,22 +206,13 @@ describe("CSV test", () => {
       "0",
       "1",
       "1",
-      "0",
-      "37",
-      "100",
-      "32",
-      "5",
-      "1",
-      "0",
-      "1",
-      "3",
-      "0",
+      "0"
     ];
 
-    let actual = getValues(jsonObj);
+    let actual = objectPeeler(jsonObj);
 
     expect(actual).toContainEqual(item1); // Denne fungerer med og uten 'edge' data
-    expect(actual).toContainEqual(item2);
+    expect(actual).toContainEqual(item1,item2,item3);
     //expect(item2).toHaveLength(11)
     //expect(actual).toEqual([item1,item2])
   });

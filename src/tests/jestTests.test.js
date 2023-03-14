@@ -1,7 +1,7 @@
 import moment from "moment/moment";
 import { inputCheck } from "../components/fetchData";
 import { trafficVolumeByLength } from "../components/queries";
-import { getValues } from "../components/trafficVolumeByLengthCsv"
+import { objectPeeler } from "../components/objectPeeler"
 //import fs from "fs"
 
 
@@ -43,7 +43,7 @@ describe("Date number tests", () => {
 });
 
 describe("CSV tests", () => {
-  test("getValues", () => {
+  test("objectPeeler", () => {
     let data = {
       data: {
         trafficData: {
@@ -140,7 +140,7 @@ describe("CSV tests", () => {
       },
     };
 
-    let result = getValues(data);
+    let result = objectPeeler(data);
     console.log(result);
     expect(result).toEqual(
       expect.arrayContaining([expect.arrayContaining(["44656V72812"])])
@@ -160,10 +160,6 @@ test("Query function", () => {
         id
         name
         trafficRegistrationType
-        direction {
-          fromAccordingToRoadLink
-          toAccordingToRoadLink
-        }
         location {
           county {
             name
@@ -185,6 +181,14 @@ test("Query function", () => {
             node {
               from
               to
+              total {
+                volumeNumbers {
+                  volume
+                }
+                coverage {
+                  percentage
+                }
+              }
               byDirection {
                 heading
                 total {
@@ -197,21 +201,6 @@ test("Query function", () => {
                     volumeNumbers {
                       volume
                     }
-                  }
-                }
-              }
-              total {
-                volumeNumbers {
-                  volume
-                }
-                coverage {
-                  percentage
-                }
-              }
-              byLengthRange {
-                total {
-                  volumeNumbers {
-                    volume
                   }
                 }
               }
