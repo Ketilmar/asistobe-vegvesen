@@ -3,7 +3,7 @@ import { trafficRegPoints, trafficRegPointsQuery, queryCounty, queryMunicipality
 import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
-import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
+import { TrafficVolumeByLengthCsv } from "./testActualRefactor.js";
 
 const inputCheck = (fromDate, toDate) => {
   const regEx = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
