@@ -8,7 +8,7 @@ import { objectPeeler } from "../components/objectPeeler";
 
 
 
-describe('getValues', () => {
+describe('objectPeeler', () => {
     let json;
     let actual;
     let expectedOutput;
@@ -50,12 +50,25 @@ describe('getValues', () => {
 
 
     it('should handle id items', () => {
-        json = `{"data": [
-                    {"trafficRegistrationPoint": {
+        json = `{"data":
+                    {"trafficRegistrationPoint": [{
                         "id": "74808V805815",
                         "name": "Bønesskogen nord"
-                    }}
+                        }
                     ]
+                    },
+                    "volume": {
+                        "byHour": {
+                            "edges": [
+                                {
+                                    "node": {
+                                        "from": "2023-02-02T00:00:00+01:00",
+                                        "to": "2023-02-02T01:00:00+01:00"
+                                    }
+                                }
+                            ]
+                        }
+                    }
                 }`
 
         let byLengthRangeData = JSON.parse(json);
@@ -143,8 +156,15 @@ describe('getValues', () => {
 
     it('Should handle empty edge data', () => {
         json = `{"data":
-                    {
-                        "edges": []
+                    {"trafficRegistrationPoint": {
+                        "id": "74808V805815",
+                        "name": "Bønesskogen nord"
+                        }
+                    },
+                    "volume": {
+                        "byHour": {
+                            "edges": []
+                        }
                     }
                 }`
 
