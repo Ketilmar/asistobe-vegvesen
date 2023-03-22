@@ -1,19 +1,6 @@
 import moment from "moment/moment";
 import { inputCheck } from "../components/fetchData";
 import { trafficVolumeByLength } from "../components/queries";
-import { objectPeeler } from "../components/objectPeeler"
-//import fs from "fs"
-
-
-// test("file", () => {
-//   const readTest = (file) => {
-//     fs.readFile(file, "utf8", (err, data) => {
-//     if (err) throw err;
-//     console.log(data);
-//   })}
-
-//   expect(readTest("result.txt")).toMatch("07721V3144565")
-// })
 
 describe("Date number tests", () => {
   test("Date inputs", () => {
@@ -42,118 +29,12 @@ describe("Date number tests", () => {
   });
 });
 
-describe("CSV tests", () => {
-  test("objectPeeler", () => {
-    let data = {
-      data: {
-        trafficData: {
-          trafficRegistrationPoint: {
-            id: "44656V72812",
-            name: "Elgeseter gate ved Abels gate",
-            location: {
-              county: {
-                name: "Trøndelag",
-              },
-              municipality: {
-                name: "Trondheim",
-              },
-              coordinates: {
-                latLon: {
-                  lat: 63.416654,
-                  lon: 10.397405,
-                },
-              },
-            },
-          },
-          volume: {
-            byHour: {
-              edges: [
-                {
-                  node: {
-                    from: "2023-02-05T00:00:00+01:00",
-                    to: "2023-02-05T01:00:00+01:00",
-                    total: {
-                      volumeNumbers: {
-                        volume: 605,
-                      },
-                      coverage: {
-                        percentage: 100,
-                      },
-                    },
-                    byLengthRange: [
-                      {
-                        total: {
-                          volumeNumbers: {
-                            volume: 539,
-                          },
-                        },
-                      },
-                      {
-                        total: {
-                          volumeNumbers: {
-                            volume: 66,
-                          },
-                        },
-                      },
-                      {
-                        total: {
-                          volumeNumbers: {
-                            volume: 11,
-                          },
-                        },
-                      },
-                      {
-                        total: {
-                          volumeNumbers: {
-                            volume: 13,
-                          },
-                        },
-                      },
-                      {
-                        total: {
-                          volumeNumbers: {
-                            volume: 16,
-                          },
-                        },
-                      },
-                      {
-                        total: {
-                          volumeNumbers: {
-                            volume: 21,
-                          },
-                        },
-                      },
-                      {
-                        total: {
-                          volumeNumbers: {
-                            volume: 5,
-                          },
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        },
-      },
-    };
-
-    let result = objectPeeler(data);
-    console.log(result);
-    expect(result).toEqual(
-      expect.arrayContaining([expect.arrayContaining(["44656V72812"])])
-    );
-  });
-});
-
 test("Query function", () => {
-  const params = ["4534V453453B", "2023-02-05", "2023-02-06"];
-  const queryTest = trafficVolumeByLength(params[0], params[1], params[2]);
+  let params = ["4534V453453B", "2023-02-05", "2023-02-06"];
+  const actual = trafficVolumeByLength(params[0], params[1], params[2]);
 
-  let item1 = `{trafficData(trafficRegistrationPointId: "4534V453453B") {`;
-  let item2 = `byHour(from: "2023-02-05T00:00:00+01:00", to: "2023-02-06T00:00:00+01:00") {`;
+  let expectedOutput1 = `{trafficData(trafficRegistrationPointId: "4534V453453B") {`;
+  let expectedOutput2 = `byHour(from: "2023-02-05T00:00:00+01:00", to: "2023-02-06T00:00:00+01:00") {`;
 
   const queryObj = `{trafficData(trafficRegistrationPointId: "4534V453453B") {
       trafficRegistrationPoint {
@@ -211,7 +92,7 @@ test("Query function", () => {
     }
   }`;
 
-  expect(queryTest).toContain(item1);
-  expect(queryTest).toContain(item2);
-  expect(queryTest).toMatch(queryObj);
+  expect(actual).toContain(expectedOutput1);
+  expect(actual).toContain(expectedOutput2);
+  expect(actual).toMatch(queryObj);
 });

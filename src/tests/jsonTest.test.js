@@ -168,8 +168,8 @@ const jsonData = `{
 
 let jsonObj = JSON.parse(jsonData);
 
-describe("CSV test", () => {
-  test("testing av objectPeeler", () => {
+describe("Test of objectPeeler", () => {
+  test("Handling data objects", () => {
     let item1 = [
       "74808V805815",
       "Bønesskogen nord",
@@ -180,10 +180,7 @@ describe("CSV test", () => {
       "5.29924",
     ];
     let item2 = [
-      "2023-02-25T00:00:00+01:00",
-      "2023-02-25T01:00:00+01:00",
-      "37",
-      "100",
+      "2023-02-25T00:00:00+01:00,2023-02-25T01:00:00+01:00,37,100",
       "Bønes",
       "21",
       "19",
@@ -192,12 +189,10 @@ describe("CSV test", () => {
       "0",
       "0",
       "2",
-      "0"]
+      "0"
+    ];
     let item3 = [
-      "2023-02-25T00:00:00+01:00",
-      "2023-02-25T01:00:00+01:00",
-      "37",
-      "100",
+      "2023-02-25T00:00:00+01:00,2023-02-25T01:00:00+01:00,37,100",
       "Bråtet",
       "16",
       "13",
@@ -211,9 +206,111 @@ describe("CSV test", () => {
 
     let actual = objectPeeler(jsonObj);
 
-    expect(actual).toContainEqual(item1); // Denne fungerer med og uten 'edge' data
-    expect(actual).toContainEqual(item1,item2,item3);
-    //expect(item2).toHaveLength(11)
-    //expect(actual).toEqual([item1,item2])
+    expect(actual).toContainEqual(item1);
+    expect(actual).toEqual([item1, item2, item3]);
+  });
+
+  
+  test("Handling id's", () => {
+    let data = {
+      data: {
+        trafficData: {
+          trafficRegistrationPoint: {
+            id: "44656V72812",
+            name: "Elgeseter gate ved Abels gate",
+            location: {
+              county: {
+                name: "Trøndelag",
+              },
+              municipality: {
+                name: "Trondheim",
+              },
+              coordinates: {
+                latLon: {
+                  lat: 63.416654,
+                  lon: 10.397405,
+                },
+              },
+            },
+          },
+          volume: {
+            byHour: {
+              edges: [
+                {
+                  node: {
+                    from: "2023-02-05T00:00:00+01:00",
+                    to: "2023-02-05T01:00:00+01:00",
+                    total: {
+                      volumeNumbers: {
+                        volume: 605,
+                      },
+                      coverage: {
+                        percentage: 100,
+                      },
+                    },
+                    byLengthRange: [
+                      {
+                        total: {
+                          volumeNumbers: {
+                            volume: 539,
+                          },
+                        },
+                      },
+                      {
+                        total: {
+                          volumeNumbers: {
+                            volume: 66,
+                          },
+                        },
+                      },
+                      {
+                        total: {
+                          volumeNumbers: {
+                            volume: 11,
+                          },
+                        },
+                      },
+                      {
+                        total: {
+                          volumeNumbers: {
+                            volume: 13,
+                          },
+                        },
+                      },
+                      {
+                        total: {
+                          volumeNumbers: {
+                            volume: 16,
+                          },
+                        },
+                      },
+                      {
+                        total: {
+                          volumeNumbers: {
+                            volume: 21,
+                          },
+                        },
+                      },
+                      {
+                        total: {
+                          volumeNumbers: {
+                            volume: 5,
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+    };
+
+    let expectedOutput = objectPeeler(data);
+    expect(expectedOutput).toEqual(
+      expect.arrayContaining([expect.arrayContaining(["44656V72812"])])
+    );
   });
 });
