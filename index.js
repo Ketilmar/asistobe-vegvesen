@@ -1,7 +1,7 @@
 // NOTE: need to run with '--experimental-specifier-resolution=node' from cmd line in some environments
     // more info here: https://github.com/nodejs/node/issues/27408#issuecomment-598314461
 
-    import { FetchData, inputCheck } from "./src/components/fetchData.js";
+    import { FetchData } from "./src/components/fetchData.js";
     import { FileDeleter } from "./src/components/fileWriter.js";
     import {fromDateDefault, toDateDefault} from "./src/components/getDefaultDates.js"
     
@@ -54,7 +54,6 @@
     if(process.argv[4] && process.argv[5]){
         fromDate = process.argv[4]
         toDate = process.argv[5]
-        inputCheck(fromDate, toDate)
 
         // if path not selected
         if(process.argv[5] === process.argv[process.argv.length -1]){
