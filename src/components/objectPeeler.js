@@ -6,11 +6,10 @@ const nodePusher = (tempNodeData, nodeData, rowdata) =>{
 
     let timeRange = nodeData.shift();
 
-    // put timerange in front of each row
-    for (let item of nodeData){
-        item.unshift(timeRange.toString());
-        rowdata.push(item.splice(0, item.length));
-    };
+    nodeData.map((item) => {
+      item.unshift(timeRange.toString());
+      rowdata.push(item);
+    });
 
     nodeData.splice(0, nodeData.length);
   };
@@ -65,6 +64,11 @@ const objectPeeler = (data) => {
   if (Object.keys(data).includes('data')){
     nodePusher(tempNodeData, nodeData, rowData);
     resultVar = rowData.splice(0, rowData.length)
+  };
+
+  // only used with the '-s' switch 
+  if (Object.keys(data).includes('id') && Object.keys(data).includes('trafficRegistrationType')){
+    rowData.push(tempNodeData.splice(0, tempNodeData.length));
   };
   
   return resultVar;
