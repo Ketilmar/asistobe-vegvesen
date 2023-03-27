@@ -65,4 +65,4 @@ const csvWriter = (returnedRowData, path) => {
   }
 };
 
-export { TrafficVolumeByLengthCsv };
+export { TrafficVolumeByLengthCsv, returnRowData };
