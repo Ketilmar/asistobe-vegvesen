@@ -2,26 +2,25 @@ import { FileWriter } from "./fileWriter.js";
 import fs from "fs";
 import { objectPeeler } from "./objectPeeler.js";
 
-/** Parses data object from 'trafficVolumeByLength' query. Converts to csv and sends object to FileWriter() */
-const TrafficVolumeByLengthCsv = (data, path) => {
+/** Parses data object from 'trafficVolumeByLength' query. Converts to csv and sends object to csvWriter() */
+const CsvConstructor = (data, path) => {
   let returnedRowData = objectPeeler(data);
-  //let finalData = returnRowData(returnedRowData)
+
   csvWriter(returnRowData(returnedRowData), path);
 };
 
+/** Extracts data for adding to each row (id, name, county, municipality, lat, lon) */
 const returnRowData = (returnedRowData) => {
-  // extract data for adding to each row later (id, name, county, municipality, lat, lon)
   let idInfo = returnedRowData.shift();
-  console.log(idInfo[0]);
 
-  // put in 'idInfo' in each row
-  for (let item in returnedRowData) {
-    returnedRowData[item].unshift(idInfo.toString());
-  }
+  returnedRowData.map(item => {
+    item.unshift(idInfo.toString())
+  })
 
   return [returnedRowData, idInfo];
 };
 
+/** Creates or updates existing file with headers */
 const csvWriter = (returnedRowData, path) => {
   // if file exists (and thus header too), replace header object with empty array for new rows
   if (fs.existsSync(path)) {
@@ -65,4 +64,4 @@ const csvWriter = (returnedRowData, path) => {
   }
 };
 
-export { TrafficVolumeByLengthCsv, returnRowData };
+export { CsvConstructor, returnRowData };
