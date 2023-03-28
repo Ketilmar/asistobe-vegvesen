@@ -3,7 +3,7 @@ import { trafficRegPoints, trafficRegPointsQuery, queryCounty, queryMunicipality
 import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
-import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
+import { csvConstructor } from "./csvConstructor.js";
 
 
 /** Fetches the data and sends it to the various parsers */
@@ -37,7 +37,7 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
         break;
 
       case '-id':
-        TrafficVolumeByLengthCsv(data, path);
+        csvConstructor(data, path);
         break;
 
       default:
