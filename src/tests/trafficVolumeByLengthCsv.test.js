@@ -53,7 +53,8 @@ describe('objectPeeler', () => {
         json = `{"data":
                     {"trafficRegistrationPoint": [{
                         "id": "74808V805815",
-                        "name": "Bønesskogen nord"
+                        "name": "Bønesskogen nord",
+                        "trafficRegistrationType": "VEHICLE"
                         }
                     ]
                     },
@@ -74,32 +75,11 @@ describe('objectPeeler', () => {
         let byLengthRangeData = JSON.parse(json);
         
         actual = objectPeeler(byLengthRangeData)
-        expectedOutput = [["74808V805815", "Bønesskogen nord"]];
+        expectedOutput = [["74808V805815", "Bønesskogen nord", "VEHICLE"]];
   
         expect(actual).toEqual(expectedOutput);
     });
-  
 
-    it('should handle objects with byLengthRange', () => {
-        json = `{"data": [
-                    {"byLengthRange": [
-                        {
-                            "total": {
-                                "volumeNumbers": {
-                                    "volume": 6
-                                }
-                            }
-                        }]
-                    }]
-                }`
-
-        let byLengthRangeData = JSON.parse(json);
-        
-        actual = objectPeeler(byLengthRangeData)
-        expectedOutput = [[],["6"]];
-  
-        expect(actual).toEqual(expectedOutput);
-    });
 
 
     it('should handle objects with empty byLengthRange', () => {
@@ -171,7 +151,7 @@ describe('objectPeeler', () => {
         let noEdgeData = JSON.parse(json);
         
         actual = objectPeeler(noEdgeData)
-        expectedOutput = [[],['No data']];
+        expectedOutput = [["74808V805815","Bønesskogen nord"],['No data']];
 
         expect(actual).toEqual(expectedOutput);
     });

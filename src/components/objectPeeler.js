@@ -43,11 +43,6 @@ const objectPeeler = (data) => {
     };
   };
 
-  // This where id row is pushed, thats common for all rows
-  if (Object.keys(data).includes('edges')){
-    rowData.push(tempNodeData.splice(0, tempNodeData.length));
-  };
-
   if (Object.keys(data).includes('node')){
     nodePusher(tempNodeData, nodeData, rowData);
   };
@@ -60,15 +55,15 @@ const objectPeeler = (data) => {
   // each loop it takes the data object and flattens it to a new array. Sends the new array thru objectPeeler() again. 
   Object.values(data).flatMap(v => objectPeeler(v));
 
+  // This where id row is pushed
+  if (Object.keys(data).includes('id') && Object.keys(data).includes('trafficRegistrationType')){
+    rowData.push(tempNodeData.splice(0, tempNodeData.length));
+  };
+
   // the last node (timerange) must be pushed here not to loose it.
   if (Object.keys(data).includes('data')){
     nodePusher(tempNodeData, nodeData, rowData);
     resultVar = rowData.splice(0, rowData.length)
-  };
-
-  // only used with the '-s' switch 
-  if (Object.keys(data).includes('id') && Object.keys(data).includes('trafficRegistrationType')){
-    rowData.push(tempNodeData.splice(0, tempNodeData.length));
   };
   
   return resultVar;
