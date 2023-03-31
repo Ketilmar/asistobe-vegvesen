@@ -38,6 +38,9 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
 
       case '-id':
         csvConstructor(data, path);
+        if (data.data.trafficData.volume.byHour.pageInfo.hasNextPage === true){
+          FetchData(cmdSwitch, id, fromDate, toDate, data.data.trafficData.volume.byHour.pageInfo.endCursor, path)
+        }
         break;
 
       default:
@@ -51,7 +54,7 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
 };
 
 /** selects graphQL query based on cmd input and sends it to fetchApi */
-const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
+const FetchData = (cmdSwitch, id, fromDate, toDate, endCursor, path) => {
   
   let querySwitch = null;
 
@@ -78,7 +81,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
       break;
 
     case '-id':
-      querySwitch = trafficVolumeByLength(id, fromDate, toDate);
+      querySwitch = trafficVolumeByLength(id, fromDate, toDate, endCursor);
       break;
 
     case '-all':
