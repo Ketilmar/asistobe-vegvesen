@@ -38,9 +38,12 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
 
       case '-id':
         csvConstructor(data, path);
-        if (data.data.trafficData.volume.byHour.pageInfo.hasNextPage === true){
-          FetchData(cmdSwitch, id, fromDate, toDate, data.data.trafficData.volume.byHour.pageInfo.endCursor, path)
-        }
+
+        const hasNextPage = data.data.trafficData.volume.byHour.pageInfo; 
+        if (hasNextPage.hasNextPage === true){
+          FetchData(cmdSwitch, id, fromDate, toDate, hasNextPage.endCursor, path)
+        };
+        
         break;
 
       default:
