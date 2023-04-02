@@ -1,4 +1,4 @@
-// pushes node data to rowData array
+/** pushes node data to rowData array */
 // Excluding empty tempNodeData to avoid pushing empty arrays.
 const nodePusher = (tempNodeData, nodeData, rowdata) =>{
   if (tempNodeData.length !== 0){
@@ -46,6 +46,11 @@ const objectPeeler = (data) => {
   if (Object.keys(data).includes('node')){
     nodePusher(tempNodeData, nodeData, rowData);
   };
+
+  // Skip pushing 'pageInfo' data to tempNodeData
+  if (Object.keys(data).includes('endCursor')){
+    return;
+  }
 
   // this where timerange and total for that is pushed
   if (Object.keys(data).includes('heading')){
