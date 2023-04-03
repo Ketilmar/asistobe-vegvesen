@@ -61,14 +61,34 @@ const filterTrafficPoints = (cmdSwitch, id, fromDate, toDate, data, path) => {
 
     // iterate thru array to run fetch on each trafficpoint id.
     // time delayed to reduce network error. You can test to lower for speed or rise to reduce errors.
-    filteredTrafficPoints.map((id, index) => {
-        setTimeout(() => {
-          FetchData('-id', id.id, fromDate, toDate, path);
+    // let endCursor = '';
+    // filteredTrafficPoints.map((id, index) => {
+    //     setTimeout(() => {
+    //       FetchData('-id', id.id, fromDate, toDate, endCursor, path);
     
-        }, 100 * index);
-      });
+    //     }, 100 * index);
+    //   });
+    tempFilterMap(filteredTrafficPoints, fromDate, toDate, path)
 
     // return filteredTrafficPoints
 };
+
+
+const tempFilterMap = (filteredTrafficPoints, fromDate, toDate, path) => {
+    let endCursor = '';
+    filteredTrafficPoints.map((id, index) => {
+        setTimeout(() => {
+          FetchData('-id', id.id, fromDate, toDate, endCursor, path);
+    
+        }, 100 * index);
+      });
+};
+
+// const tempFilterMap = (filteredTrafficPoints, fromDate, toDate, path) => {
+//     let endCursor = '';
+//     filteredTrafficPoints.map(async (id) => {
+//         await FetchData('-id', id.id, fromDate, toDate, endCursor, path);
+//       });
+// };
 
 export {filterTrafficPoints, filterByMunicipality, filterByCounty}
