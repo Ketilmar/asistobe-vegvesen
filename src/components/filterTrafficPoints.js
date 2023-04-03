@@ -57,38 +57,18 @@ const filterTrafficPoints = (cmdSwitch, id, fromDate, toDate, data, path) => {
             // If wrong inputs console log which inputs are correct
             console.log("Check your input. Please use -m <municipality> or -c <county>. You typed", {fetchType});
             break;
-    }
+    };
 
-    // iterate thru array to run fetch on each trafficpoint id.
-    // time delayed to reduce network error. You can test to lower for speed or rise to reduce errors.
-    // let endCursor = '';
-    // filteredTrafficPoints.map((id, index) => {
-    //     setTimeout(() => {
-    //       FetchData('-id', id.id, fromDate, toDate, endCursor, path);
-    
-    //     }, 100 * index);
-    //   });
-    tempFilterMap(filteredTrafficPoints, fromDate, toDate, path)
+    mapFetch(filteredTrafficPoints, fromDate, toDate, path)
 
     // return filteredTrafficPoints
 };
 
-
-const tempFilterMap = (filteredTrafficPoints, fromDate, toDate, path) => {
+const mapFetch = async (filteredTrafficPoints, fromDate, toDate, path) => {
     let endCursor = '';
-    filteredTrafficPoints.map((id, index) => {
-        setTimeout(() => {
-          FetchData('-id', id.id, fromDate, toDate, endCursor, path);
-    
-        }, 100 * index);
-      });
+    await Promise.all(filteredTrafficPoints.map(async (id) => {
+        await FetchData('-id', id.id, fromDate, toDate, endCursor, path);
+      }));
 };
-
-// const tempFilterMap = (filteredTrafficPoints, fromDate, toDate, path) => {
-//     let endCursor = '';
-//     filteredTrafficPoints.map(async (id) => {
-//         await FetchData('-id', id.id, fromDate, toDate, endCursor, path);
-//       });
-// };
 
 export {filterTrafficPoints, filterByMunicipality, filterByCounty}

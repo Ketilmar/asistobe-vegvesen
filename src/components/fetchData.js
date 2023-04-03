@@ -96,7 +96,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, endCursor, path) => {
       return;
   }
 
-  fetchApi(cmdSwitch, querySwitch, id, fromDate, toDate, path);
+  return fetchApi(cmdSwitch, querySwitch, id, fromDate, toDate, path);
   
 };
 
