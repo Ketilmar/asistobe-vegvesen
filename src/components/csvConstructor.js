@@ -28,7 +28,7 @@ const csvWriter = (returnedRowData, path) => {
     FileWriter(
       path,
       csv,
-      `ID ${returnedRowData[1]} - Write row without header -->`
+      `ID ${returnedRowData[1][0]} - Write row without header -->`
     );
   } else {
     // Headers must be defined manually
@@ -59,7 +59,7 @@ const csvWriter = (returnedRowData, path) => {
     FileWriter(
       path,
       csv,
-      `ID ${returnedRowData[1]} - Write row with header -->`
+      `ID ${returnedRowData[1][0]} - Write row with header -->`
     );
   }
 };
