@@ -7,7 +7,7 @@ const filterByMunicipality = (id, data) => {
     const filteredTrafficPoints = trafficRegistrationPoints.filter((trafficPoint) => {
         const { name } = trafficPoint.location.municipality;
 
-        if (name.toLowerCase() === id) {
+        if (name.toLowerCase() === id.toLowerCase()) {
             return true;
         } 
         else return false;
@@ -23,7 +23,7 @@ const filterByCounty = (id, data) => {
     const filteredTrafficPoints = trafficRegistrationPoints.filter((trafficPoint) => {
         const { name } = trafficPoint.location.county;
 
-        if (name.toLowerCase() === id) {
+        if (name.toLowerCase() === id.toLowerCase()) {
             return true;
         } 
         else return false;
