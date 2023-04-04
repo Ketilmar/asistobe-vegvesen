@@ -23,7 +23,6 @@ let resultVar;
   /** Iterates thru the input object and extract all values. Pushes values to rowData as arrays of strings */
 const objectPeeler = (data) => {
   
-
   // If not an object, get the value and push it to tempNodeData array
   if(typeof data !== 'object'){
     tempNodeData.push(data.toString().replace(/[\,]+/g, ' -'));

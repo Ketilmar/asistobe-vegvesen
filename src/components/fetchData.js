@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
 import { csvConstructor } from "./csvConstructor.js";
+import { FileWriter } from "./fileWriter.js";
 
 
 /** Fetches the data and sends it to the various parsers */
@@ -39,6 +40,7 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
       case '-id':
         csvConstructor(data, path);
 
+        // if timespan is longer than 5 days, pagination is used to get consecutive data.
         const hasNextPage = data.data.trafficData.volume.byHour.pageInfo; 
         if (hasNextPage.hasNextPage === true){
           FetchData(cmdSwitch, id, fromDate, toDate, hasNextPage.endCursor, path)
@@ -52,7 +54,9 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
     }
 
   }
-  catch  (err){console.log(err);}
+  catch  (err){
+    console.log(`Error ID: ${id}. Error name: ${err.name} - Error code: ${err.code}`);
+  };
 
 };
 
