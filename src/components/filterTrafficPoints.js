@@ -66,10 +66,11 @@ const filterTrafficPoints = (cmdSwitch, id, fromDate, toDate, data, path) => {
 
 const mapFetch = async (filteredTrafficPoints, fromDate, toDate, path) => {
     let endCursor = '';
+
     await Promise.all(filteredTrafficPoints.map((id, index) => {
         setTimeout(() => {
             FetchData('-id', id.id, fromDate, toDate, endCursor, path);
-        }, 150 * index);
+        }, 50 * index);
       }));
 };
 
