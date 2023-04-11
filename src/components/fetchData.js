@@ -4,7 +4,6 @@ import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
 import { csvConstructor } from "./csvConstructor.js";
-import { FileWriter } from "./fileWriter.js";
 
 
 /** Fetches the data and sends it to the various parsers */
