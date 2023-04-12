@@ -73,13 +73,4 @@ const mapFetch = async (filteredTrafficPoints, fromDate, toDate, path) => {
       });
 };
 
-const mapFetch = async (filteredTrafficPoints, fromDate, toDate, path) => {
-    let endCursor = '';
-    await filteredTrafficPoints.map((id, index) => {
-        setTimeout(() => {
-            FetchData('-id', id.id, fromDate, toDate, endCursor, path);
-        }, 150 * index);
-      });
-};
-
-export {filterTrafficPoints, filterByMunicipality, filterByCounty, getAll}
+export {filterTrafficPoints, filterByMunicipality, filterByCounty}
