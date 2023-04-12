@@ -1,11 +1,13 @@
 import { trafficRegPoints, trafficRegPointsQuery, queryCounty, queryMunicipality, trafficVolumeByLength } from "./queries.js";
 // because early node version in Docker dev environment, i must install node-fetch and import fetch. Just uncomment to use with later node version.
 import fetch from "node-fetch";
+import fetchRetry from 'fetch-retry';
+
 import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
 import { csvConstructor } from "./csvConstructor.js";
-import { FileWriter } from "./fileWriter.js";
 
+const fetchWithRetry = fetchRetry(fetch)
 
 /** Fetches the data and sends it to the various parsers */
 const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, endCursor, path) => {
@@ -14,13 +16,15 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, endCursor,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     mode: "cors",
+    retries: 1,
+    retryDelay: 1000,
     body: JSON.stringify({
       query: querySwitch,
     }),
   };
 
   try {
-    const res= await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
+    const res= await fetchWithRetry("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
     const data = await res.json()
     
     switch (cmdSwitch){
