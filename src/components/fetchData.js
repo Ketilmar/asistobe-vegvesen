@@ -3,7 +3,7 @@ import { trafficRegPoints, trafficRegPointsQuery, queryCounty, queryMunicipality
 import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
-import { TrafficVolumeByLengthCsv } from "./trafficVolumeByLengthCsv.js";
+import { csvConstructor } from "./csvConstructor.js";
 
 const inputCheck = (fromDate, toDate) => {
   const regEx = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
@@ -47,7 +47,14 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
         break;
 
       case '-id':
-        TrafficVolumeByLengthCsv(data, path);
+        csvConstructor(data, path);
+
+        // if timespan is longer than 5 days, pagination is used to get consecutive data.
+        const hasNextPage = data.data.trafficData.volume.byHour.pageInfo; 
+        if (hasNextPage.hasNextPage === true){
+          FetchData(cmdSwitch, id, fromDate, toDate, hasNextPage.endCursor, path)
+        };
+        
         break;
 
       default:
@@ -56,12 +63,14 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
     }
 
   }
-  catch  (err){console.log(err);}
+  catch  (err){
+    console.log(`Error ID: ${id}. Error name: ${err.name} - Error code: ${err.code}`);
+  };
 
 };
 
 /** selects graphQL query based on cmd input and sends it to fetchApi */
-const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
+const FetchData = (cmdSwitch, id, fromDate, toDate, endCursor, path) => {
   
   let querySwitch = null;
 
@@ -88,7 +97,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
       break;
 
     case '-id':
-      querySwitch = trafficVolumeByLength(id, fromDate, toDate);
+      querySwitch = trafficVolumeByLength(id, fromDate, toDate, endCursor);
       break;
 
     case '-all':
@@ -100,7 +109,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
       return;
   }
 
-  fetchApi(cmdSwitch, querySwitch, id, fromDate, toDate, path);
+  return fetchApi(cmdSwitch, querySwitch, id, fromDate, toDate, path);
   
 };
 

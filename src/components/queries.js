@@ -165,7 +165,7 @@ const trafficRegPoints = `
   }`
 }
 
-  const trafficVolumeByLength = (id, dateFrom, dateTo) => {
+  const trafficVolumeByLength = (id, dateFrom, dateTo, endCursor) => {
     return `{trafficData(trafficRegistrationPointId: "${id}") {
       trafficRegistrationPoint {
         id
@@ -187,7 +187,7 @@ const trafficRegPoints = `
         }
       }
       volume {
-        byHour(from: "${dateFrom}T00:00:00+01:00", to: "${dateTo}T00:00:00+01:00") {
+        byHour(from: "${dateFrom}T00:00:00+01:00", to: "${dateTo}T00:00:00+01:00", after: "${endCursor}") {
           edges {
             node {
               from
@@ -216,6 +216,10 @@ const trafficRegPoints = `
                 }
               }
             }
+          }
+          pageInfo {
+            endCursor
+            hasNextPage
           }
         }
       }
