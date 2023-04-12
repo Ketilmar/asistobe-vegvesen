@@ -39,6 +39,7 @@
     let path;
     let fromDate = fromDateDefault;
     let toDate = toDateDefault;
+    let endCursor = "";
 
     // if not choosing a path or date
     if(process.argv[3] === process.argv[process.argv.length -1]){
@@ -68,4 +69,4 @@
     
     FileDeleter(path);
     
-    FetchData(cmdSwitch, id, fromDate, toDate, path)
+    FetchData(cmdSwitch, id, fromDate, toDate, endCursor, path)

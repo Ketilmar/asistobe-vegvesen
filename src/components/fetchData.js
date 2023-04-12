@@ -38,6 +38,13 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
 
       case '-id':
         csvConstructor(data, path);
+
+        // if timespan is longer than 5 days, pagination is used to get consecutive data.
+        const hasNextPage = data.data.trafficData.volume.byHour.pageInfo; 
+        if (hasNextPage.hasNextPage === true){
+          FetchData(cmdSwitch, id, fromDate, toDate, hasNextPage.endCursor, path)
+        };
+        
         break;
 
       default:
@@ -46,12 +53,14 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
     }
 
   }
-  catch  (err){console.log(err);}
+  catch  (err){
+    console.log(`Error ID: ${id}. Error name: ${err.name} - Error code: ${err.code}`);
+  };
 
 };
 
 /** selects graphQL query based on cmd input and sends it to fetchApi */
-const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
+const FetchData = (cmdSwitch, id, fromDate, toDate, endCursor, path) => {
   
   let querySwitch = null;
 
@@ -78,7 +87,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
       break;
 
     case '-id':
-      querySwitch = trafficVolumeByLength(id, fromDate, toDate);
+      querySwitch = trafficVolumeByLength(id, fromDate, toDate, endCursor);
       break;
 
     case '-all':
@@ -90,7 +99,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, path) => {
       return;
   }
 
-  fetchApi(cmdSwitch, querySwitch, id, fromDate, toDate, path);
+  return fetchApi(cmdSwitch, querySwitch, id, fromDate, toDate, path);
   
 };
 
