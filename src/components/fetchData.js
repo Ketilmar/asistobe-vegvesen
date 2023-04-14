@@ -4,7 +4,6 @@ import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
 import { csvConstructor } from "./csvConstructor.js";
-import { getTimezones } from "./getTimezones.js";
 
 
 /** Fetches the data and sends it to the various parsers */
@@ -88,8 +87,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, endCursor, path) => {
       break;
 
     case '-id':
-      let dateTime = getTimezones(fromDate, toDate)
-      querySwitch = trafficVolumeByLength(id, dateTime[0], dateTime[1], endCursor);
+      querySwitch = trafficVolumeByLength(id, fromDate, toDate, endCursor);
       break;
 
     case '-all':

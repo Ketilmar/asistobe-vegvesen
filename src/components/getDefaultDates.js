@@ -1,8 +1,6 @@
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc.js";
 
-dayjs.extend(utc);
-
+/** Gets default dates for the past 1-2 days */
 const getDefaultDates = (daysToGoBack) => {
   const date = dayjs().subtract(daysToGoBack, "day").format("YYYY-MM-DD");
   return date;
