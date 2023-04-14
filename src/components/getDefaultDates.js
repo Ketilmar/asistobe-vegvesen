@@ -1,7 +1,8 @@
-import moment from "moment/moment.js";
+import dayjs from "dayjs";
 
+/** Gets default dates for the past 1-2 days */
 const getDefaultDates = (daysToGoBack) => {
-  const date = moment().subtract(daysToGoBack, "days").format("YYYY-MM-DD");
+  const date = dayjs().subtract(daysToGoBack, "day").format("YYYY-MM-DD");
   return date;
 };
 

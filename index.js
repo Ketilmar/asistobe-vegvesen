@@ -4,6 +4,7 @@
     import { FetchData } from "./src/components/fetchData.js";
     import { FileDeleter } from "./src/components/fileWriter.js";
     import {fromDateDefault, toDateDefault} from "./src/components/getDefaultDates.js"
+    import { getTimezones } from "./src/components/getTimezones.js";
     
     // HOW TO USE:
     // timeRange defaults to last complete 24 hour dataset (00:00 to 00:00)
@@ -68,5 +69,7 @@
     }
     
     FileDeleter(path);
-    
-    FetchData(cmdSwitch, id, fromDate, toDate, endCursor, path)
+
+    const dateTime = getTimezones(fromDate, toDate);
+
+    FetchData(cmdSwitch, id, dateTime[0], dateTime[1], endCursor, path)
