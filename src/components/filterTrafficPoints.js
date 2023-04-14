@@ -69,7 +69,7 @@ const mapFetch = async (filteredTrafficPoints, fromDate, toDate, path) => {
     await filteredTrafficPoints.map((id, index) => {
         setTimeout(() => {
             FetchData('-id', id.id, fromDate, toDate, endCursor, path);
-        }, 150 * index);
+        }, 0 * index);
       });
 };
 

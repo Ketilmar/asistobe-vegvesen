@@ -16,8 +16,15 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, endCursor,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     mode: "cors",
-    retries: 1,
+    retries: 3,
     retryDelay: 1000,
+    retryOn: function(attempt, error, response) {
+      // retry on any network error, or 4xx or 5xx status codes
+      if (error !== null || response.status >= 400) {
+        console.log(`retrying, attempt number ${attempt + 1} - ID: ${id} EndCursor: ${endCursor}`);
+        return true;
+      }
+    },
     body: JSON.stringify({
       query: querySwitch,
     }),
