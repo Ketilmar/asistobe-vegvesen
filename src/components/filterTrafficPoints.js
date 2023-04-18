@@ -75,4 +75,4 @@ const mapFetch = async (filteredTrafficPoints, fromDate, toDate, path) => {
       });
 };
 
-export {filterTrafficPoints, filterByMunicipality, filterByCounty}
+export {filterTrafficPoints, filterByMunicipality, filterByCounty, getAll}

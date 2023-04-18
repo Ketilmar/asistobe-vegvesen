@@ -2,22 +2,10 @@ import { trafficRegPoints, trafficRegPointsQuery, queryCounty, queryMunicipality
 // because early node version in Docker dev environment, i must install node-fetch and import fetch. Just uncomment to use with later node version.
 import fetch from "node-fetch";
 import fetchRetry from 'fetch-retry';
-
 import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
 import { csvConstructor } from "./csvConstructor.js";
-import { getTimezones } from "./getTimezone.js";
 
-const inputCheck = (fromDate, toDate) => {
-  const regEx = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
-  if (regEx.test(fromDate) && regEx.test(toDate)) {
-    console.log("Passed")
-    return true
-  } else {
-    console.log("Passed in wrong date format")
-    return false
-  }
-}
 const fetchWithRetry = fetchRetry(fetch)
 
 /** Fetches the data and sends it to the various parsers */
@@ -110,8 +98,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, endCursor, path) => {
       break;
 
     case '-id':
-      let dateTime = getTimezones(fromDate, toDate)
-      querySwitch = trafficVolumeByLength(id, dateTime[0], dateTime[1], endCursor);
+      querySwitch = trafficVolumeByLength(id, fromDate, toDate, endCursor);
       break;
 
     case '-all':
@@ -127,4 +114,4 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, endCursor, path) => {
   
 };
 
-export {FetchData, fetchApi, inputCheck}
+export {FetchData, fetchApi}

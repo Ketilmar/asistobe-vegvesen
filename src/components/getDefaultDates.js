@@ -9,4 +9,4 @@ const getDefaultDates = (daysToGoBack) => {
 const fromDateDefault = getDefaultDates(2);
 const toDateDefault = getDefaultDates(1);
 
-export { fromDateDefault, toDateDefault };
+export { fromDateDefault, toDateDefault, getDefaultDates };
