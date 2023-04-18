@@ -9,7 +9,7 @@
     // HOW TO USE:
     // timeRange defaults to last complete 24 hour dataset (00:00 to 00:00)
     
-        // search for traffic points. (Does not get traffic data)
+        // search for traffic points by name or id. (Does not get traffic data)
         // Needs at least one character
             // node . -s <search phrase>
         
@@ -37,14 +37,14 @@
     
     const cmdSwitch = process.argv[2]
     const id = process.argv[3]
-    let path;
+    let path = "result.csv"
     let fromDate = fromDateDefault;
     let toDate = toDateDefault;
     let endCursor = "";
 
     // if not choosing a path or date
     if(process.argv[3] === process.argv[process.argv.length -1]){
-        path = "result.csv"
+        path;
     }
 
     // if path selected but not date
@@ -59,7 +59,7 @@
 
         // if path not selected
         if(process.argv[5] === process.argv[process.argv.length -1]){
-            path = "result.csv";
+            path;
         }
 
         // if path selected

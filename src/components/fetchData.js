@@ -1,25 +1,37 @@
 import { trafficRegPoints, trafficRegPointsQuery, queryCounty, queryMunicipality, trafficVolumeByLength } from "./queries.js";
 // because early node version in Docker dev environment, i must install node-fetch and import fetch. Just uncomment to use with later node version.
 import fetch from "node-fetch";
+import fetchRetry from 'fetch-retry';
+
 import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
 import { csvConstructor } from "./csvConstructor.js";
 
+const fetchWithRetry = fetchRetry(fetch)
 
 /** Fetches the data and sends it to the various parsers */
-const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
+const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, endCursor, path) => {
 
   const httpOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     mode: "cors",
+    retries: 3,
+    retryDelay: 1000,
+    retryOn: function(attempt, error, response) {
+      // retry on any network error, or 4xx or 5xx status codes
+      if (error !== null || response.status >= 400) {
+        console.log(`retrying, attempt number ${attempt + 1} - ID: ${id} EndCursor: ${endCursor}`);
+        return true;
+      }
+    },
     body: JSON.stringify({
       query: querySwitch,
     }),
   };
 
   try {
-    const res= await fetch("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
+    const res= await fetchWithRetry("https://www.vegvesen.no/trafikkdata/api/", httpOptions)
     const data = await res.json()
     
     switch (cmdSwitch){
@@ -42,7 +54,7 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
         // if timespan is longer than 5 days, pagination is used to get consecutive data.
         const hasNextPage = data.data.trafficData.volume.byHour.pageInfo; 
         if (hasNextPage.hasNextPage === true){
-          FetchData(cmdSwitch, id, fromDate, toDate, hasNextPage.endCursor, path)
+          FetchData(cmdSwitch, id, fromDate, toDate, hasNextPage.endCursor, path);
         };
         
         break;
@@ -54,7 +66,7 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, path) => {
 
   }
   catch  (err){
-    console.log(`Error ID: ${id}. Error name: ${err.name} - Error code: ${err.code}`);
+    console.log(`Error ID: ${id}. Error name: ${err.name} - Error code: ${err.code} - EndCursor: ${endCursor}`)
   };
 
 };
@@ -99,7 +111,7 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, endCursor, path) => {
       return;
   }
 
-  return fetchApi(cmdSwitch, querySwitch, id, fromDate, toDate, path);
+  return fetchApi(cmdSwitch, querySwitch, id, fromDate, toDate, endCursor, path);
   
 };
 
