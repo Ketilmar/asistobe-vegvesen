@@ -64,12 +64,14 @@ const filterTrafficPoints = (cmdSwitch, id, fromDate, toDate, data, path) => {
     // return filteredTrafficPoints
 };
 
+/** Map's thru array of id's and calls fetchData on each.
+ * Includes a timeout function to be used in case of some network related errors like bandwidth saturation. */
 const mapFetch = async (filteredTrafficPoints, fromDate, toDate, path) => {
     let endCursor = '';
     await filteredTrafficPoints.map((id, index) => {
         setTimeout(() => {
             FetchData('-id', id.id, fromDate, toDate, endCursor, path);
-        }, 150 * index);
+        }, 0 * index);
       });
 };
 

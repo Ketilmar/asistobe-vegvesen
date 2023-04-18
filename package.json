@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Ketilmar/asistobe-vegvesen#readme",
   "dependencies": {
     "dayjs": "^1.11.7",
-    "moment": "^2.29.4",
+    "fetch-retry": "^5.0.4",
     "node-fetch": "^3.3.0"
   },
   "devDependencies": {

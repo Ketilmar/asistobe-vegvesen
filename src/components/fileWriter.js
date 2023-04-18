@@ -19,7 +19,7 @@ const FileWriter = (path, csv, writeMessage) => {
         if (err)
           console.log(err);
         else {
-          console.log(writeMessage, 'Appended to:', path);
+          // console.log(writeMessage, 'Appended to:', path);
         }
       }); 
     }
