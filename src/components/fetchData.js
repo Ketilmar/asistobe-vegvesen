@@ -66,7 +66,7 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, endCursor,
 
   }
   catch  (err){
-    console.log(`Error ID: ${id}. Error name: ${err.name} - Error code: ${err.code} - EncCursor: ${endCursor}`)
+    console.log(`Error ID: ${id}. Error name: ${err.name} - Error code: ${err.code} - EndCursor: ${endCursor}`)
   };
 
 };
