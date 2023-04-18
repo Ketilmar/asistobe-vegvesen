@@ -28,7 +28,7 @@ const FileWriter = (path, csv, writeMessage) => {
         if (err)
           console.log(err);
         else {
-          // console.log(writeMessage, "New file:", path);
+          console.log(writeMessage, "New file:", path);
         }
       });
     }

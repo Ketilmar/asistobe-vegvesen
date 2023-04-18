@@ -67,12 +67,6 @@ const fetchApi = async (cmdSwitch, querySwitch, id, fromDate, toDate, endCursor,
   }
   catch  (err){
     console.log(`Error ID: ${id}. Error name: ${err.name} - Error code: ${err.code} - EncCursor: ${endCursor}`)
-    // FileWriter(
-    //   `${path}_errorlog.txt`,
-    //   `Error ID: ${id}. Error name: ${err.name} - Error code: ${err.code}`,
-    //   id
-    // );
-    // throw err
   };
 
 };
