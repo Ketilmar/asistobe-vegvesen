@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 import { SearchResultCsv } from "./searchResultCsv.js";
 import {filterTrafficPoints} from "./filterTrafficPoints.js";
 import { csvConstructor } from "./csvConstructor.js";
+import { getTimezones } from "./getTimezone.js";
 
 const inputCheck = (fromDate, toDate) => {
   const regEx = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
@@ -97,7 +98,8 @@ const FetchData = (cmdSwitch, id, fromDate, toDate, endCursor, path) => {
       break;
 
     case '-id':
-      querySwitch = trafficVolumeByLength(id, fromDate, toDate, endCursor);
+      let dateTime = getTimezones(fromDate, toDate)
+      querySwitch = trafficVolumeByLength(id, dateTime[0], dateTime[1], endCursor);
       break;
 
     case '-all':
